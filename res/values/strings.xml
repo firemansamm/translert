@@ -4,5 +4,11 @@
     <string name="app_name">Translert</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
+    <string name="welcome">Welcome to Translert!</string>
+    <string name="getstarted">Select a recent trip, or create a new trip to begin.</string>
+    <string name="wherefrom">Where are you?</string>
+    <string name="whereto">Where would you like to go?</string>
+    <string name="line_label">Station Line:</string>
+    <string name="station_label">Station Name:</string>
 
 </resources>

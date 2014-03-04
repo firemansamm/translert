@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.PriorityQueue;
 
@@ -82,6 +83,7 @@ public class PathFinder {
 		}
 	}
 	
+	@SuppressWarnings("unchecked")
 	public void routeMe(Station begin, Station end, int comparisonType){
 		//comparison types: 0 - shortest time
 		//					1 - least transfers
@@ -92,6 +94,7 @@ public class PathFinder {
 		for(int i=0;i<begin.line.size();i++){
 			pq.add(new State(begin, 0, begin.line.get(i), begin.no.get(i), false, new ArrayList<Transfer>()));
 		}
+		State answerState = null;
 		while(pq.size() != 0){
 			State cur = pq.remove();
 			if(cur.position.longName.equals(end.longName)){
@@ -100,6 +103,7 @@ public class PathFinder {
 				for(int i=0;i<cur.xfers.size();i++){
 					Log.d("translert", "we had to transfer at " + cur.xfers.get(i).position.longName + " at " + String.valueOf(cur.xfers.get(i).atTime) + " minutes.");
 				}
+				answerState = cur;
 				break;
 			}
 			if(visited.containsKey(cur.onLine + cur.curNo)) continue;
@@ -124,6 +128,7 @@ public class PathFinder {
 				pq.add(n);
 			}
 		}
+		MainActivity.pref.addTrip(new Trip(new Date().toString(), begin.longName, end.longName, answerState.totalTime, comparisonType, answerState.xfers.size()));
 	}
 	
 	public String loadJSONFromAsset() {
