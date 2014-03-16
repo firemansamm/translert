@@ -1,7 +1,11 @@
 package com.translert;
 
+import java.util.Date;
+
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 
 public class TripOverviewActivity extends Activity {
@@ -17,7 +21,35 @@ public class TripOverviewActivity extends Activity {
 		tv.setText(hello.end.longName);
 		tv = (TextView) findViewById(R.id.detailsLabel);
 		tv.setText(String.valueOf(hello.totalTime) + " minutes" + ((hello.xfers.size() > 0) ? ", " + String.valueOf(hello.xfers.size()) + " transfer" + ((hello.xfers.size() > 1) ? "s" : "") : ""));
-		
+		hello.xfers.add(0, MainActivity.pf.new Transfer(hello.start, 0));
+		tv = (TextView) findViewById(R.id.routeDescription);
+		for(int i=0;i<hello.xfers.size();i++){
+			if(i == hello.xfers.size() - 1){
+				tv.setText(tv.getText() + "\n" + hello.xfers.get(i).position.longName + " to " + hello.end.longName + " (" + String.valueOf(hello.totalTime - hello.xfers.get(i).atTime) + " mins)");
+			}else{
+				tv.setText(tv.getText() + "\n" + hello.xfers.get(i).position.longName + " to " + hello.xfers.get(i+1).position.longName + " (" + String.valueOf(hello.xfers.get(i+1).atTime - hello.xfers.get(i).atTime) + " mins)");
+			}
+		}
+	}
+	
+	public void process(View v){
+		PathFinder.State hello = PathFinder.answer;
+		MainActivity.pref.addTrip(new Trip(new Date().toString(), hello.start.longName, hello.end.longName, hello.totalTime, 0, hello.xfers.size()));
+		Bundle optionsBundle = new Bundle();
+		if(hello.xfers.size() < 2) {
+			optionsBundle.putString("destination", hello.end.longName);
+			optionsBundle.putInt("minutes", hello.totalTime);
+		}else {
+			optionsBundle.putString("destination", hello.xfers.get(1).position.longName);
+			optionsBundle.putInt("minutes", hello.xfers.get(1).atTime);
+		}
+		optionsBundle.putInt("legnum", 0);
+		optionsBundle.putInt("totalleg", hello.xfers.size());
+		Intent serviceIntent = new Intent(this, TimerService.class);
+		serviceIntent.putExtras(optionsBundle);
+		startService(serviceIntent);
+		Intent watchIntent = new Intent(this, WatchActivity.class);
+		startActivity(watchIntent);
 	}
 	
 }

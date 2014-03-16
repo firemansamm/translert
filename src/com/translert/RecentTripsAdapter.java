@@ -52,9 +52,9 @@ public class RecentTripsAdapter extends BaseAdapter {
 			tv.setText(t.source + " - " + t.destination);
 			tv = (TextView) ret.findViewById(R.id.dates);
 			Format formatter = new SimpleDateFormat("dd/MM/yy HH:mm", Locale.ENGLISH);
-			String typestr = (t.type == 0) ? "shortest" : "least transfers";
-			String xfstr = ", " + t.xfc + " transfers";
-			tv.setText(formatter.format(t.date) + ", " + t.minutes + " mins" + (t.xfc > 0 ? xfstr : "") + " (" + typestr + ")");
+			//String typestr = (t.type == 0) ? "shortest" : "least transfers";
+			String xfstr = ", " + t.xfc + " transfer" + (t.xfc > 0 ? "s" : "");
+			tv.setText(formatter.format(t.date) + ", " + t.minutes + " mins" + (t.xfc > 0 ? xfstr : "") /*+ " (" + typestr + ")"*/);
 		}
 		return ret;
 	}

@@ -44,7 +44,7 @@ public class MainActivity extends SherlockActivity {
 					//load trip
 					Trip x = pref.recent.get(position - 1);
 					PathFinder.State e = pf.routeMe(Station.reverseLookup.get(x.source), 
-										Station.reverseLookup.get(x.source), 
+										Station.reverseLookup.get(x.destination), 
 										x.type);
 					//now we need to display this state's overview and start
 					PathFinder.answer = e;

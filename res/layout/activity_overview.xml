@@ -31,5 +31,33 @@
             android:paddingLeft="15dp"
             android:paddingRight="15dp"
             android:textSize="18sp" />
+	 
+	 <TextView android:id="@+id/routeDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:textSize="14sp" />
+	 
+	  <TextView android:id="@+id/infoLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:textSize="14sp"
+            android:text="Press 'Go!' to begin timing." />
+	  
+	 <Button android:id="@+id/next"
+            android:layout_width="match_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_height="wrap_content"
+            android:text="Go!"
+            android:textSize="14sp"
+            android:onClick="process" />
 
 </LinearLayout>

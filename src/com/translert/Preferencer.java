@@ -2,6 +2,7 @@ package com.translert;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
@@ -32,7 +33,8 @@ public class Preferencer {
 
 	public void writeObj(){
 		try {
-			BufferedOutputStream bs = new BufferedOutputStream(new FileOutputStream("trips"));
+			File file = new File(baseActivity.getFilesDir(), "trips");
+			BufferedOutputStream bs = new BufferedOutputStream(new FileOutputStream(file));
 			ObjectOutputStream oos = new ObjectOutputStream(bs);
 			oos.writeObject(recent);
 			oos.close();
@@ -44,7 +46,8 @@ public class Preferencer {
 	@SuppressWarnings("unchecked")
 	public void loadObj(){
 		try {
-			BufferedInputStream bs = new BufferedInputStream(new FileInputStream("trips"));
+			File file = new File(baseActivity.getFilesDir(), "trips");
+			BufferedInputStream bs = new BufferedInputStream(new FileInputStream(file));
 			ObjectInputStream ois = new ObjectInputStream(bs);
 			recent = (ArrayList<Trip>) ois.readObject();
 			ois.close();

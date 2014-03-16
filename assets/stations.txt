@@ -61,8 +61,15 @@
             {
                 "longName": "Sengkang",
                 "shortName": "SKG",
-                "line": "STC",
-                "no": "",
+                "line": "SW",
+                "no": "0",
+                "url": "#"
+            },
+            {
+                "longName": "Sengkang",
+                "shortName": "SKG",
+                "line": "SG",
+                "no": "0",
                 "url": "#"
             },
             {
@@ -102,9 +109,9 @@
             },
             {
                 "longName": "Punggol",
-                "shortName": "PGL",
-                "line": "PTC",
-                "no": "",
+                "shortName": "PE0",
+                "line": "PE",
+                "no": "0",
                 "url": "#"
             },            
             {
@@ -300,7 +307,7 @@
                 "longName": "Tanah Merah",
                 "shortName": "TNM",
                 "line": "CG",
-                "no": "4",
+                "no": "0",
                 "url": "/Trains/NetworkMap/TanahMerah.aspx"
             },               
             {

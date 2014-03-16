@@ -131,7 +131,6 @@ public class PathFinder {
 			}
 		}
 		return answerState;
-		//MainActivity.pref.addTrip(new Trip(new Date().toString(), begin.longName, end.longName, answerState.totalTime, comparisonType, answerState.xfers.size()));
 	}
 	
 	public String loadJSONFromAsset() {
