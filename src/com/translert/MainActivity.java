@@ -1,9 +1,12 @@
 package com.translert;
 
 import com.actionbarsherlock.app.SherlockActivity;
+
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
 import com.actionbarsherlock.view.Menu;
@@ -29,10 +32,25 @@ public class MainActivity extends SherlockActivity {
 		lv = (ListView) findViewById(R.id.recenttrips);
 		mAdapter = new RecentTripsAdapter(this);
 		lv.setAdapter(mAdapter);
-		lv.setOnClickListener(new OnClickListener(){
+		lv.setOnItemClickListener(new OnItemClickListener(){
 			@Override
-			public void onClick(View arg0) {
-				
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				if(position == 0){
+					//new trip
+					Intent in = new Intent(MainActivity.this, StationSelectorActivity.class);
+					in.putExtra("from", true);
+					startActivity(in);
+				}else{
+					//load trip
+					Trip x = pref.recent.get(position - 1);
+					PathFinder.State e = pf.routeMe(Station.reverseLookup.get(x.source), 
+										Station.reverseLookup.get(x.source), 
+										x.type);
+					//now we need to display this state's overview and start
+					PathFinder.answer = e;
+					Intent in = new Intent(MainActivity.this, TripOverviewActivity.class);
+					startActivity(in);
+				}
 			}
 		});
 	}

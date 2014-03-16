@@ -15,6 +15,12 @@ public class Station{
 	public Station(JSONObject parsedObject) throws JSONException {
 		longName = parsedObject.getString("longName");
 		String sign = parsedObject.getString("line") + parsedObject.getString("no");
+		if(!lines.contains(parsedObject.getString("line"))){
+			lines.add(parsedObject.getString("line"));
+			names.add(new ArrayList<String>());
+		}
+		int pp = lines.indexOf(parsedObject.getString("line"));
+		names.get(pp).add(longName);
 		if(reverseLookup.containsKey(longName)){
 			Station x = reverseLookup.get(longName);
 			x.line.add(parsedObject.getString("line"));
@@ -42,4 +48,6 @@ public class Station{
 	public static Map<String, Station> reverseLookup = new HashMap<String, Station>();
 	public static Map<String, Station> shortLookup = new HashMap<String, Station>();
 	public static Map<String, Station> signLookup = new HashMap<String, Station>();
+	public static ArrayList<String> lines = new ArrayList<String>();
+	public static ArrayList<ArrayList<String>> names = new ArrayList<ArrayList<String>>();
 }
