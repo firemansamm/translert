@@ -6,7 +6,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -48,7 +47,6 @@ public class WatchActivity extends Activity {
 					Intent interimIntent = new Intent(WatchActivity.this, TripOverviewActivity.class);
 					startActivity(interimIntent);
 				}
-				stopService(TripOverviewActivity.serviceIntent);
 				finish();
 			}
 		});

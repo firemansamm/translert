@@ -45,11 +45,12 @@ public class TimerService extends Service {
 			for (int i=0;i<tickHandlers.size();i++){
 				WatchActivity.activity.runOnUiThread(new WorkWrapper(tickHandlers.get(i), secondsRemaining));
 			}
-			if(secondsRemaining == 0) {
+			if(secondsRemaining <= 0) {
 				active = false;
 				for (int i=0;i<endHandlers.size();i++){
 					WatchActivity.activity.runOnUiThread(new WorkWrapper(endHandlers.get(i), secondsRemaining));
 				}
+				TimerService.this.stopSelf();
 			}
 		}
 	};
