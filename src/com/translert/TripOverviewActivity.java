@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 public class TripOverviewActivity extends Activity {
 
+	public static Intent serviceIntent;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
@@ -43,13 +45,14 @@ public class TripOverviewActivity extends Activity {
 			optionsBundle.putString("destination", hello.xfers.get(1).position.longName);
 			optionsBundle.putInt("minutes", hello.xfers.get(1).atTime);
 		}
-		optionsBundle.putInt("legnum", 0);
+		optionsBundle.putInt("legnum", 1);
 		optionsBundle.putInt("totalleg", hello.xfers.size());
-		Intent serviceIntent = new Intent(this, TimerService.class);
+		serviceIntent = new Intent(this, TimerService.class);
 		serviceIntent.putExtras(optionsBundle);
 		startService(serviceIntent);
 		Intent watchIntent = new Intent(this, WatchActivity.class);
 		startActivity(watchIntent);
+		finish();
 	}
 	
 }

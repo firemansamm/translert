@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.os.Binder;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.util.Log;
 
 public class TimerService extends Service {
 
@@ -28,6 +29,7 @@ public class TimerService extends Service {
 		active = true;
 		Bundle b = intent.getExtras();
 		secondsRemaining = b.getInt("minutes") * 60;
+		Log.d("translert", "received request for timer of " + String.valueOf(secondsRemaining) + " seconds!");
 		currentLeg = b.getInt("legnum");
 		legTotal = b.getInt("totalleg");
 		endStation = b.getString("destination");
@@ -41,19 +43,35 @@ public class TimerService extends Service {
 		public void run() {
 			secondsRemaining--;
 			for (int i=0;i<tickHandlers.size();i++){
-				tickHandlers.get(i).work();
+				WatchActivity.activity.runOnUiThread(new WorkWrapper(tickHandlers.get(i), secondsRemaining));
 			}
 			if(secondsRemaining == 0) {
 				active = false;
 				for (int i=0;i<endHandlers.size();i++){
-					endHandlers.get(i).work();
+					WatchActivity.activity.runOnUiThread(new WorkWrapper(endHandlers.get(i), secondsRemaining));
 				}
 			}
 		}
 	};
 	
+	public class WorkWrapper implements Runnable{
+		Worker toRun;
+		int secondsleft;
+		
+		public WorkWrapper(Worker tr, int sec){
+			toRun = tr;
+			secondsleft = sec;
+		}
+
+		@Override
+		public void run() {
+			toRun.work(secondsleft);
+		}
+		
+	}
+	
 	public interface Worker{
-		void work();
+		void work(int secondsleft);
 	};
 	public static ArrayList<Worker> tickHandlers = new ArrayList<Worker>();
 	public static ArrayList<Worker> endHandlers = new ArrayList<Worker>();

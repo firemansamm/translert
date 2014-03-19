@@ -28,6 +28,10 @@
         <activity
             android:name="com.translert.TripOverviewActivity"
             android:label="@string/app_name" />
+        <activity
+            android:name="com.translert.WatchActivity"
+            android:label="@string/app_name" />
+        <service android:name="com.translert.TimerService"></service>
     </application>
 
 </manifest>
