@@ -29,8 +29,11 @@
             android:name="com.translert.TripOverviewActivity"
             android:label="@string/app_name" />
         <activity
-            android:name="com.translert.WatchActivity"
+            android:name="com.translert.InterimActivity"
             android:label="@string/app_name" />
+        <activity
+            android:name="com.translert.WatchActivity"
+            android:label="@string/app_name" android:launchMode="singleTop"/>
         <service android:name="com.translert.TimerService"></service>
     </application>
 

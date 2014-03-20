@@ -28,7 +28,7 @@ public class TimerService extends Service {
 	public int onStartCommand(Intent intent, int flags, int startId){
 		active = true;
 		Bundle b = intent.getExtras();
-		secondsRemaining = b.getInt("minutes") * 60;
+		secondsRemaining = 10;//b.getInt("minutes") * 60;
 		Log.d("translert", "received request for timer of " + String.valueOf(secondsRemaining) + " seconds!");
 		currentLeg = b.getInt("legnum");
 		legTotal = b.getInt("totalleg");
@@ -50,6 +50,9 @@ public class TimerService extends Service {
 				for (int i=0;i<endHandlers.size();i++){
 					WatchActivity.activity.runOnUiThread(new WorkWrapper(endHandlers.get(i), secondsRemaining));
 				}
+				//clean the work queue
+				endHandlers.clear();
+				tickHandlers.clear();
 				TimerService.this.stopSelf();
 			}
 		}
