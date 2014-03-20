@@ -30,6 +30,7 @@ public class WatchActivity extends Activity {
 		setContentView(R.layout.activity_watch);
 		activity = this;
 		pi = PendingIntent.getActivity(WatchActivity.this, 0, new Intent(WatchActivity.this, WatchActivity.class), PendingIntent.FLAG_UPDATE_CURRENT);
+		
 		TextView tv = (TextView) findViewById(R.id.destLabel);
 		tv.setText("Arriving at " + TimerService.endStation + " in:");
 		tv = (TextView) findViewById(R.id.routeDescription);
@@ -65,6 +66,7 @@ public class WatchActivity extends Activity {
 				//sec is obviously 0
 				//alarm here
 				Intent beepIntent = new Intent(WatchActivity.this, WatchActivity.class);
+				beepIntent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
 				startActivity(beepIntent);
 				new AlertDialog.Builder(WatchActivity.this).setMessage("Wake up! You're almost at " + TimerService.endStation + "!").setTitle("Translert").setPositiveButton("Yes", new OnClickListener(){
 					@Override
