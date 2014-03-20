@@ -22,14 +22,14 @@ public class WatchActivity extends Activity {
 	public static WatchActivity activity;
 	NotificationManager nm;
 	static Notification nf;
-	PendingIntent pi;
+	static PendingIntent pi;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_watch);
 		activity = this;
-		PendingIntent.getActivity(WatchActivity.this, 0, new Intent(WatchActivity.this, WatchActivity.class), PendingIntent.FLAG_UPDATE_CURRENT);
+		pi = PendingIntent.getActivity(WatchActivity.this, 0, new Intent(WatchActivity.this, WatchActivity.class), PendingIntent.FLAG_UPDATE_CURRENT);
 		TextView tv = (TextView) findViewById(R.id.destLabel);
 		tv.setText("Arriving at " + TimerService.endStation + " in:");
 		tv = (TextView) findViewById(R.id.routeDescription);
@@ -40,7 +40,7 @@ public class WatchActivity extends Activity {
 		remainingSeconds = TimerService.secondsRemaining % 60;
 		String minText = ((remainingMinutes < 10)?"0":"") + String.valueOf(remainingMinutes),
 				secText = ((remainingSeconds < 10)?"0":"") + String.valueOf(remainingSeconds);
-		nf = (new NotificationCompat.Builder(this)).setOngoing(true).setContentTitle("Approximately " + minText + ":" + secText + " to destination.").setContentText("Currently en route to " + TimerService.endStation + ".").setSmallIcon(R.drawable.ic_launcher).getNotification();
+		nf = (new NotificationCompat.Builder(this)).setOngoing(true).setContentTitle("Approximately " + minText + ":" + secText + " to destination.").setContentIntent(pi).setContentText("Currently en route to " + TimerService.endStation + ".").setSmallIcon(R.drawable.ic_launcher).getNotification();
 		tv = (TextView) findViewById(R.id.detailsLabel);
 	    nm.notify(0, nf);
 		tv.setText(minText+":"+secText);	
@@ -53,7 +53,7 @@ public class WatchActivity extends Activity {
 				TextView tv = (TextView) findViewById(R.id.detailsLabel);
 				String minText = ((remainingMinutes < 10)?"0":"") + String.valueOf(remainingMinutes),
 						secText = ((remainingSeconds < 10)?"0":"") + String.valueOf(remainingSeconds);
-				nf = (new NotificationCompat.Builder(WatchActivity.this)).setOngoing(true).setContentTitle("Approximately " + minText + ":" + secText + " to destination.").setContentText("Currently en route to " + TimerService.endStation + ".").setSmallIcon(R.drawable.ic_launcher).getNotification();
+				nf = (new NotificationCompat.Builder(WatchActivity.this)).setOngoing(true).setContentTitle("Approximately " + minText + ":" + secText + " to destination.").setContentText("Currently en route to " + TimerService.endStation + ".").setSmallIcon(R.drawable.ic_launcher).setContentIntent(pi).getNotification();
 				nm.notify(0, nf);
 				tv.setText(minText+":"+secText);
 			}
@@ -64,6 +64,8 @@ public class WatchActivity extends Activity {
 			public void work(int sec){
 				//sec is obviously 0
 				//alarm here
+				Intent beepIntent = new Intent(WatchActivity.this, WatchActivity.class);
+				startActivity(beepIntent);
 				new AlertDialog.Builder(WatchActivity.this).setMessage("Wake up! You're almost at " + TimerService.endStation + "!").setTitle("Translert").setPositiveButton("Yes", new OnClickListener(){
 					@Override
 					public void onClick(DialogInterface dialog, int id) {
@@ -83,6 +85,7 @@ public class WatchActivity extends Activity {
 	
 	public void process (View v){
 		stopService(TripOverviewActivity.serviceIntent);
+		nm.cancel(0);
 		finish();
 	}
 }

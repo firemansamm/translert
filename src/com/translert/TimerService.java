@@ -28,7 +28,7 @@ public class TimerService extends Service {
 	public int onStartCommand(Intent intent, int flags, int startId){
 		active = true;
 		Bundle b = intent.getExtras();
-		secondsRemaining = 10;//b.getInt("minutes") * 60;
+		secondsRemaining = 10; //b.getInt("minutes") * 60;
 		Log.d("translert", "received request for timer of " + String.valueOf(secondsRemaining) + " seconds!");
 		currentLeg = b.getInt("legnum");
 		legTotal = b.getInt("totalleg");
@@ -83,6 +83,8 @@ public class TimerService extends Service {
 	@Override
 	public void onDestroy(){
 		tripTimer.cancel();
+		tickHandlers.clear();
+		endHandlers.clear();
 		super.onDestroy();
 	}
 	
