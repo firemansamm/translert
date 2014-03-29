@@ -8,8 +8,6 @@ import android.widget.TextView;
 
 public class TripOverviewActivity extends Activity {
 
-	public static Intent serviceIntent;
-	
 	@Override
 	protected void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
@@ -45,12 +43,18 @@ public class TripOverviewActivity extends Activity {
 		}
 		optionsBundle.putInt("legnum", 1);
 		optionsBundle.putInt("totalleg", hello.xfers.size());
-		serviceIntent = new Intent(this, TimerService.class);
-		serviceIntent.putExtras(optionsBundle);
-		startService(serviceIntent);
+
+		//calling TimerService from WatchActivity instead of here, since
+		//TimerService needs the handler from WatchActivity
+		//optionsBundle passed from this -> WatchActivity -> TimerService
+		
+//		serviceIntent = new Intent(this, TimerService.class);
+//		serviceIntent.putExtras(optionsBundle);
+//		startService(serviceIntent);
+		
 		Intent watchIntent = new Intent(this, WatchActivity.class);
+		watchIntent.putExtras(optionsBundle);
 		startActivity(watchIntent);
-		finish();
 	}
 	
 }
