@@ -36,7 +36,7 @@ public class TripOverviewActivity extends Activity {
 	
 	public void process(View v){
 		PathFinder.State hello = PathFinder.answer;
-		MainActivity.pref.addTrip(new Trip(new Date().toString(), hello.start.longName, hello.end.longName, hello.totalTime, 0, hello.xfers.size()));
+		MainActivity.pref.addTrip(new Trip(System.currentTimeMillis(), hello.start.longName, hello.end.longName, hello.totalTime, 0, hello.xfers.size()));
 		Bundle optionsBundle = new Bundle();
 		if(hello.xfers.size() < 2) {
 			optionsBundle.putString("destination", hello.end.longName);
