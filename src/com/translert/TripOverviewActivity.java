@@ -1,7 +1,5 @@
 package com.translert;
 
-import java.util.Date;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
