@@ -798,6 +798,8 @@ containing a value of this type.
          */
         public static final int activity_horizontal_margin=0x7f07000f;
         public static final int activity_vertical_margin=0x7f070010;
+        public static final int circle_diameter=0x7f070011;
+        public static final int divider_size=0x7f070012;
     }
     public static final class drawable {
         public static final int abs__ab_bottom_solid_dark_holo=0x7f020000;
@@ -912,12 +914,16 @@ containing a value of this type.
         public static final int abs__textfield_searchview_right_holo_dark=0x7f02006d;
         public static final int abs__textfield_searchview_right_holo_light=0x7f02006e;
         public static final int abs__toast_frame=0x7f02006f;
-        public static final int bus_icon=0x7f020070;
-        public static final int divider=0x7f020071;
-        public static final int ic_launcher=0x7f020072;
-        public static final int mrt_icon=0x7f020073;
-        public static final int progress_circle_future=0x7f020074;
-        public static final int progress_circle_in_progress=0x7f020075;
+        public static final int background_emerald=0x7f020070;
+        public static final int background_text_box=0x7f020071;
+        public static final int background_white_circle=0x7f020072;
+        public static final int bus_icon=0x7f020073;
+        public static final int divider=0x7f020074;
+        public static final int ic_launcher=0x7f020075;
+        public static final int mrt_icon=0x7f020076;
+        public static final int progress_circle_in_progress=0x7f020077;
+        public static final int progress_circle_not_in_progress=0x7f020078;
+        public static final int white_stroke=0x7f020079;
     }
     public static final class id {
         public static final int abs__action_bar=0x7f040020;
@@ -959,38 +965,42 @@ containing a value of this type.
         public static final int abs__textButton=0x7f040013;
         public static final int abs__title=0x7f04001b;
         public static final int abs__up=0x7f04000b;
-        public static final int action_settings=0x7f040047;
-        public static final int activityLabel=0x7f040040;
-        public static final int bus_button=0x7f040035;
-        public static final int bus_button_linear_view=0x7f040034;
-        public static final int container=0x7f040036;
-        public static final int dates=0x7f040046;
-        public static final int destLabel=0x7f04003b;
-        public static final int detailsLabel=0x7f04003c;
+        public static final int action_settings=0x7f04004b;
+        public static final int activityLabel=0x7f040044;
+        public static final int busDestinationTextbox=0x7f040033;
+        public static final int busNoTextBox=0x7f040035;
+        public static final int bus_button=0x7f040034;
+        public static final int bus_button_linear_view=0x7f040039;
+        public static final int container=0x7f04003b;
+        public static final int dates=0x7f04004a;
+        public static final int destLabel=0x7f040040;
+        public static final int detailsLabel=0x7f040041;
         public static final int disableHome=0x7f040009;
+        public static final int distance_counter=0x7f040036;
         public static final int edit_query=0x7f040026;
-        public static final int getstarted=0x7f040038;
+        public static final int getstarted=0x7f04003d;
         public static final int homeAsUp=0x7f040006;
-        public static final int infoLabel=0x7f04003e;
-        public static final int lineSpinner=0x7f040042;
-        public static final int linelabel=0x7f040041;
+        public static final int infoLabel=0x7f040043;
+        public static final int lineSpinner=0x7f040046;
+        public static final int linelabel=0x7f040045;
         public static final int listMode=0x7f040002;
-        public static final int mrt_button=0x7f040033;
-        public static final int name=0x7f040045;
-        public static final int next=0x7f04003f;
+        public static final int mrt_button=0x7f04003a;
+        public static final int name=0x7f040049;
+        public static final int next=0x7f040037;
         public static final int normal=0x7f040001;
-        public static final int recenttrips=0x7f040039;
-        public static final int routeDescription=0x7f04003d;
-        public static final int select_mode=0x7f040032;
+        public static final int recenttrips=0x7f04003e;
+        public static final int return_to_start_screen=0x7f040032;
+        public static final int routeDescription=0x7f040042;
+        public static final int select_mode=0x7f040038;
         public static final int showCustom=0x7f040008;
         public static final int showHome=0x7f040005;
         public static final int showTitle=0x7f040007;
-        public static final int sourceLabel=0x7f04003a;
-        public static final int stationSpinner=0x7f040044;
-        public static final int stationlabel=0x7f040043;
+        public static final int sourceLabel=0x7f04003f;
+        public static final int stationSpinner=0x7f040048;
+        public static final int stationlabel=0x7f040047;
         public static final int tabMode=0x7f040003;
         public static final int useLogo=0x7f040004;
-        public static final int welcome=0x7f040037;
+        public static final int welcome=0x7f04003c;
         public static final int wrap_content=0x7f040000;
     }
     public static final class integer {
@@ -1018,14 +1028,19 @@ containing a value of this type.
         public static final int abs__search_dropdown_item_icons_2line=0x7f030012;
         public static final int abs__search_view=0x7f030013;
         public static final int abs__simple_dropdown_hint=0x7f030014;
-        public static final int activity_bustrain=0x7f030015;
-        public static final int activity_main=0x7f030016;
-        public static final int activity_overview=0x7f030017;
-        public static final int activity_selector=0x7f030018;
-        public static final int activity_watch=0x7f030019;
-        public static final int listrow=0x7f03001a;
-        public static final int sherlock_spinner_dropdown_item=0x7f03001b;
-        public static final int sherlock_spinner_item=0x7f03001c;
+        public static final int activity_bus_alert=0x7f030015;
+        public static final int activity_bus_enter_destination=0x7f030016;
+        public static final int activity_bus_enter_number=0x7f030017;
+        public static final int activity_bus_processing=0x7f030018;
+        public static final int activity_bus_progress=0x7f030019;
+        public static final int activity_bus_train=0x7f03001a;
+        public static final int activity_main=0x7f03001b;
+        public static final int activity_overview=0x7f03001c;
+        public static final int activity_selector=0x7f03001d;
+        public static final int activity_watch=0x7f03001e;
+        public static final int listrow=0x7f03001f;
+        public static final int sherlock_spinner_dropdown_item=0x7f030020;
+        public static final int sherlock_spinner_item=0x7f030021;
     }
     public static final class menu {
         public static final int main=0x7f0b0000;

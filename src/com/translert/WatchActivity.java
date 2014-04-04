@@ -2,6 +2,8 @@ package com.translert;
 
 
 
+import com.translert.activity.C;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Notification;

@@ -1,5 +1,7 @@
 package com.translert;
 
+import com.translert.activity.C;
+
 import android.app.Service;
 import android.content.Intent;
 import android.os.Bundle;

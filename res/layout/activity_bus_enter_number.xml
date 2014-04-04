@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context=".BusTrainActivity"
+    android:orientation="vertical"
+    android:gravity = "center_horizontal"
+    android:weightSum = "45">
+    
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="9" />
+    
+    <ImageView
+	     android:id="@+id/bus_button"
+	     android:layout_width="fill_parent"
+	     android:layout_height="0dp"
+	     android:contentDescription="bus"
+	     android:src="@drawable/bus_icon"
+	     android:paddingBottom="0dp"
+	     android:background="@android:color/transparent"
+	     android:layout_weight = "9"
+	      />
+    
+    
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="3" />
+    
+    <EditText
+        android:hint="ENTER BUS NO."
+		android:id="@+id/busNoTextBox"
+		android:layout_width="match_parent"
+		android:layout_height="0dp"
+		android:background = "@drawable/background_text_box"
+		android:paddingTop="5dp"
+		android:paddingBottom="5dp"
+		android:paddingLeft = "5dp"
+		android:layout_weight = "3"
+		android:imeOptions="actionDone"
+		android:inputType = "number"
+		/>
+    
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="6" />
+        
+    <LinearLayout 
+        android:layout_width="wrap_content"
+        android:layout_height = "0dp"
+        android:layout_weight="9"
+        android:gravity = "center"
+        android:orientation = "horizontal"
+        android:divider="@drawable/divider"
+        android:showDividers="middle">
+        
+        <View
+	    	android:background="@drawable/progress_circle_not_in_progress"
+		    android:layout_height="@dimen/circle_diameter"
+		    android:layout_width="@dimen/circle_diameter"/>
+	        
+        <View
+		    android:background="@drawable/progress_circle_in_progress"
+		    android:layout_height="@dimen/circle_diameter"
+		    android:layout_width="@dimen/circle_diameter"/>
+        
+        <View
+		    android:background="@drawable/progress_circle_not_in_progress"
+		    android:layout_height="@dimen/circle_diameter"
+		    android:layout_width="@dimen/circle_diameter"/>
+        
+    </LinearLayout>
+
+</LinearLayout>

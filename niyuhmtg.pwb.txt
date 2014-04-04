@@ -1,0 +1,70 @@
+﻿
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+# On branch master
+# Changes to be committed:
+#   (use "git reset HEAD <file>..." to unstage)
+#
+#	modified:   AndroidManifest.xml
+#	modified:   bin/AndroidManifest.xml
+#	modified:   bin/R.txt
+#	modified:   bin/Translert.apk
+#	modified:   bin/classes.dex
+#	modified:   bin/classes/com/actionbarsherlock/R$layout.class
+#	modified:   bin/classes/com/translert/InterimActivity.class
+#	modified:   bin/classes/com/translert/MainActivity.class
+#	modified:   bin/classes/com/translert/R$dimen.class
+#	modified:   bin/classes/com/translert/R$drawable.class
+#	modified:   bin/classes/com/translert/R$id.class
+#	modified:   bin/classes/com/translert/R$integer.class
+#	modified:   bin/classes/com/translert/R$layout.class
+#	modified:   bin/classes/com/translert/R$menu.class
+#	modified:   bin/classes/com/translert/R$string.class
+#	modified:   bin/classes/com/translert/R$style.class
+#	modified:   bin/classes/com/translert/R$styleable.class
+#	modified:   bin/classes/com/translert/RecentTripsAdapter.class
+#	modified:   bin/classes/com/translert/StationSelectorActivity$1.class
+#	modified:   bin/classes/com/translert/StationSelectorActivity.class
+#	modified:   bin/classes/com/translert/TimerService.class
+#	modified:   bin/classes/com/translert/TripOverviewActivity.class
+#	modified:   bin/classes/com/translert/WatchActivity.class
+#	modified:   bin/dexedLibs/actionbarsherlock-061c42ec2f1cf7c3396bcc41053460c0.jar
+#	modified:   bin/res/crunch/drawable-hdpi/ic_launcher.png
+#	modified:   bin/res/crunch/drawable-mdpi/ic_launcher.png
+#	modified:   bin/resources.ap_
+#	modified:   gen/com/actionbarsherlock/R.java
+#	modified:   gen/com/translert/R.java
+#	modified:   res/drawable/divider.xml
+#	modified:   res/layout/activity_bus_train.xml
+#	modified:   res/values/dimens.xml
+#	modified:   src/com/translert/TimerService.java
+#	modified:   src/com/translert/WatchActivity.java
+#	modified:   src/com/translert/activity/C.java
+#
+# Untracked files:
+#   (use "git add <file>..." to include in what will be committed)
+#
+#	bin/res/crunch/drawable-hdpi/bus_icon.png
+#	bin/res/crunch/drawable-hdpi/mrt_icon.png
+#	bin/res/crunch/drawable-ldpi/
+#	bin/res/crunch/drawable-mdpi/bus_icon.png
+#	bin/res/crunch/drawable-mdpi/mrt_icon.png
+#	bin/res/crunch/drawable-xhdpi/bus_icon.png
+#	bin/res/crunch/drawable-xhdpi/mrt_icon.png
+#	res/drawable/background_emerald.xml
+#	res/drawable/background_text_box.xml
+#	res/drawable/background_white_circle.xml
+#	res/drawable/white_stroke.xml
+#	res/layout/activity_bus_alert.xml
+#	res/layout/activity_bus_enter_destination.xml
+#	res/layout/activity_bus_enter_number.xml
+#	res/layout/activity_bus_processing.xml
+#	res/layout/activity_bus_progress.xml
+#	src/com/translert/activity/BusEnterDestinationActivity.java
+#	src/com/translert/activity/BusEnterNumberActivity.java
+#	src/com/translert/activity/BusProcessingActivity.java
+#	src/com/translert/activity/BusProgressActivity.java
+#	src/com/translert/activity/BusTrainSelectorActivity.java
+#	src/com/translert/bus/
+#	src/net/
+
