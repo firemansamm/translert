@@ -1,11 +1,20 @@
 package com.translert.bus;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URLEncoder;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.util.EntityUtils;
+import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.app.IntentService;
 import android.content.Intent;
@@ -13,28 +22,16 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 
-import com.translert.activity.C;
-
 
 public class ProcessingIntentService extends IntentService {
 	
 	
 	
 	static Handler handler;
-	HTTPtoJSONString httpToString = new HTTPtoJSONString();
-	OneMapJSONparser oneMapJSONparser = new OneMapJSONparser();
 	GPSTracker gps;
 	static Message returnMsg;
 	
-	static private final String token = "qo/s2TnSUmfLz+32CvLC4RMVkzEFYjxqyti1KhByvEacEdMWBpCuSSQ+IFRT84QjGPBCuz/cBom8PfSm3GjEsGc8PkdEEOEr";
-	
-	static private final String routingStart = "http://www.onemap.sg/publictransportation/service1.svc/routesolns?token=";
-	
-	static private final String routingEnd = "&startstop=&endstop=&walkdist=300&mode=bus&routeopt=cheapest&retgeo=false&maxsolns=1&callback=";
-	
-	static private final String searchStart = "http://www.onemap.sg/API/services.svc/basicSearch?token=";
-	
-	static private final String BUS_STOP = " (BUS STOP)";
+
 	
 	public ProcessingIntentService () {
 		super("processingIntentService");
@@ -56,14 +53,22 @@ public class ProcessingIntentService extends IntentService {
 			
 			SGGPosition origin2 = getGPS();
 			String busDestination = intent.getStringExtra("busDestination");
-			SGGPosition destination2 = getPosition (busDestination);
-			double distance = origin2.getDistance(destination2);
+			SGGPosition destination2 = getSdBusStopPosition (busDestination);
 			
-			Intent outputIntent = new Intent (this, com.translert.activity.BusProgressActivity.class);
-			outputIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-			outputIntent.putExtra("distance", formatDistanceToString(distance));
-			startActivity(outputIntent);
-			Log.d("translert", "IntentService initiated progress activity");
+			if (destination2 != null && origin2 !=null) {
+				
+				double distance = origin2.getDistance(destination2);
+				
+				Intent outputIntent = new Intent (this, com.translert.activity.BusProgressActivity.class);
+				outputIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+				outputIntent.putExtra("distance", formatDistanceToString(distance));
+				startActivity(outputIntent);
+				Log.d("translert", "IntentService initiated progress activity");
+				
+			} else {
+				Log.d("translert", "destination is null");
+			}
+			
 			
 			break;
 		
@@ -73,13 +78,7 @@ public class ProcessingIntentService extends IntentService {
 		
 	}
 	
-	private String formatDistanceToString(double distance) {
-		if (distance > 1000) {
-			return String.format("%.1f km", distance/1000);
-		} else {
-			return String.format("%s m", distance);
-		}
-	}
+	
 	
 	
 	public SGGPosition getGPS() {
@@ -95,11 +94,58 @@ public class ProcessingIntentService extends IntentService {
         	
         	//gps.showSettingsAlert();
         	Log.d("translert", "cannot get GPS");
-        	currentPosition = new SGGPosition(0,0, "empty");
         	
         }
 		
 		return currentPosition;
+		
+	}
+	
+	public SGGPosition getSdBusStopPosition (String name) {
+		
+		SGGPosition position = null;
+		
+		
+		try {
+			String link = C.sdSearchStart + URLEncoder.encode(name, "UTF-8");
+			Log.d("translert", link);
+			URI linkUri = new URI (link);
+			String results = uriToString(linkUri);
+			Log.d("translert", results);
+			position = sdBusStopGeocode(results);
+			Log.d("translert", position.format());
+		} catch (UnsupportedEncodingException e) {
+		} catch (URISyntaxException e) {
+		} catch (ClientProtocolException e) {
+		} catch (IOException e) {
+		} catch (JSONException e) {
+		}
+		
+		return position;
+		
+	}
+	
+	public SGGPosition getSdPosition (String name) {
+		SGGPosition position = null;
+		
+		
+		try {
+			String link = C.sdSearchStart + URLEncoder.encode(name, "UTF-8");
+			Log.d("translert", link);
+			URI linkUri = new URI (link);
+			String results = uriToString(linkUri);
+			Log.d("translert", results);
+			position = sdGeocode(results);
+			Log.d("translert", position.format());
+		} catch (UnsupportedEncodingException e) {
+		} catch (URISyntaxException e) {
+		} catch (ClientProtocolException e) {
+		} catch (IOException e) {
+		} catch (JSONException e) {
+		}
+		
+		return position;
+			
 		
 	}
 	
@@ -108,12 +154,12 @@ public class ProcessingIntentService extends IntentService {
 		SGGPosition position = null;
 		
     	try {
-    		String linkString = searchStart + token + "&searchVal=" + URLEncoder.encode(name, "UTF-8");
+    		String linkString = C.searchStart + C.token + "&searchVal=" + URLEncoder.encode(name, "UTF-8");
     		Log.d("translert", linkString);
 			URI link = new URI(linkString);
-			String results = httpToString.doit(link);
+			String results = uriToString(link);
 			Log.d("translert", results);
-	    	position = oneMapJSONparser.geocode(results);
+	    	position = geocode(results);
 	    	Log.d("translert", position.format());
 		
     	} catch (URISyntaxException e) {
@@ -130,21 +176,21 @@ public class ProcessingIntentService extends IntentService {
     	
     	
     	BusRoute busRoute = null;
+    	String link = C.routingStart + C.token
+    			+ String.format ("&sl=%.4f,%.4f", origin.x, origin.y)
+    			+ String.format ("&el=%.4f,%.4f", destination.x, destination.y)
+    			+ C.routingEnd;
 		
     	try {
-			String link = routingStart + token
-	    			+ String.format ("&sl=%.4f,%.4f", origin.x, origin.y)
-	    			+ String.format ("&el=%.4f,%.4f", destination.x, destination.y)
-	    			+ routingEnd;
-	    	
+    		
 	    	URI linkURI = new URI(link);
-	    	String results = httpToString.doit(linkURI);
-			busRoute = oneMapJSONparser.getRoute(results, origin, destination);
+	    	String results = uriToString(linkURI);
+			busRoute = getRoute(results, origin, destination);
 			
 			for (int i = 0; i< busRoute.route.length; i ++) {
 	    		
-	    		busRoute.route[i].startPosition = getPosition (busRoute.route[i].startCode + BUS_STOP);
-	    		busRoute.route[i].endPosition = getPosition (busRoute.route[i].endCode + BUS_STOP);
+	    		busRoute.route[i].startPosition = getPosition (busRoute.route[i].startCode + C.BUS_STOP);
+	    		busRoute.route[i].endPosition = getPosition (busRoute.route[i].endCode + C.BUS_STOP);
 	    	
 	    	}
 			
@@ -156,5 +202,125 @@ public class ProcessingIntentService extends IntentService {
     	return busRoute;
     	
     }
+    
+    
+    private String formatDistanceToString(double distance) {
+		if (distance > 1000) {
+			return String.format("%.1f km", distance/1000);
+		} else {
+			return String.format("%i m", distance);
+		}
+	}
+    
+    
+    //get string from link method
+    
+    private String uriToString (URI uri) throws ClientProtocolException, IOException {
+		
+		String response = null;
+		
+		DefaultHttpClient httpClient = new DefaultHttpClient();
+        HttpGet httpGet = new HttpGet(uri);
+        HttpResponse httpResponse = httpClient.execute(httpGet);
+        HttpEntity httpEntity = httpResponse.getEntity();
+        response = EntityUtils.toString(httpEntity);
+		
+		return response;
+		
+	}
+    
+    //JSON parsing methods
+    
+    private SGGPosition geocode(String JSONstring) throws JSONException {
+    	
+		JSONObject geocodes = new JSONObject(JSONstring);
+		JSONArray results = geocodes.getJSONArray("SearchResults");
+		JSONObject firstresult = results.getJSONObject(1);
+		
+		Double x = firstresult.getDouble("X");
+		Double y = firstresult.getDouble("Y");
+		String title = firstresult.getString("SEARCHVAL");
+		
+		return new SGGPosition (x, y, title);
+		
+	}
+	
+	private BusRoute getRoute(String JSONstring, SGGPosition positionA, SGGPosition positionB)
+			throws JSONException, URISyntaxException, ClientProtocolException, IOException{
+		
+		JSONObject object = new JSONObject(JSONstring);
+		JSONArray busROUTE = object.getJSONArray("BusRoute");
+		JSONObject firstSolution = busROUTE.getJSONObject(0);
+		JSONArray steps = firstSolution.getJSONArray("STEPS");
+		
+		int numberOfSteps = steps.length();
+		BusStep[] busRoute = new BusStep[numberOfSteps];
+		
+		for (int i = 0; i < numberOfSteps; i++) {
+			
+			JSONObject step = steps.getJSONObject(i);
+			
+			String startCode = step.getString("BoardId");
+			String startTitle = null;
+			if (startCode.equals("") ) {
+				
+				startCode = busRoute[i-1].endCode;
+				startTitle = busRoute[i-1].endTitle;
+				
+			} else {
+				startTitle = step.getString("BoardDesc");
+			}
+			
+			String busCode = step.getString("ServiceID");
+			
+			String endCode = step.getString("AlightId");
+			String endTitle = step.getString ("AlightDesc");
+			
+			BusStep busStep = new BusStep(startCode, startTitle, busCode, endCode, endTitle);
+			busRoute[i] = busStep;
+			
+		}
+		
+		return new BusRoute (busRoute, positionA, positionB);
+		
+	}
+	
+	public SGGPosition sdGeocode(String JSONstring) throws JSONException {
+		
+		JSONArray geocodes = new JSONArray(JSONstring);
+		JSONObject firstresult = geocodes.getJSONObject(1);
+		Double longitude = firstresult.getDouble("x");
+		Double latitude = firstresult.getDouble("y");
+		String title = firstresult.getString("t");
+		
+		return new SGGPosition(latitude, longitude, title, C.CONVERT_LATLNG_TO_SVY21);
+	
+	}
+	
+	public SGGPosition sdBusStopGeocode(String JSONstring) throws JSONException {
+		
+		SGGPosition returnResult = null;
+		Log.d("translert", "wtf1");
+		
+		JSONArray geocodes = new JSONArray(JSONstring);
+		for (int i = 1; i < geocodes.length(); i++) {
+			Log.d("translert", "wtf2");
+			JSONObject ithResult = geocodes.getJSONObject(i);
+			String title = ithResult.getString("t");
+			Log.d("translert", title);
+			if (title.contains(" (B")) {
+				Double longitude = ithResult.getDouble("x");
+				Double latitude = ithResult.getDouble("y");
+				Log.d("translert", latitude + "," +longitude);
+				returnResult = new SGGPosition(latitude, longitude, title, C.CONVERT_LATLNG_TO_SVY21);
+				break;
+			}
+		}
+		
+		return returnResult;
+	
+	}
+	
+	
 
 }

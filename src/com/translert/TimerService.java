@@ -1,6 +1,6 @@
 package com.translert;
 
-import com.translert.activity.C;
+import com.translert.bus.C;
 
 import android.app.Service;
 import android.content.Intent;
