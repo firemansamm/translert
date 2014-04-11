@@ -8,7 +8,10 @@ public final class C {
 	public static final int GET_DISTANCE_INIT = 101;
 	public static final int GET_DISTANCE = 103;
 	public static final int RETURN_DISTANCE = 102;
-	public static final int DELAY_AMOUNT = 5 * 60 * 1000;
+	public static final int RETURN_DISTANCE_REACHED = 404;
+	public static final long DELAY_LONG = 5 * 1000;
+	public static final long DELAY_SHORT = 2 * 1000;
+	
 	
 	public static final String token = "qo/s2TnSUmfLz+32CvLC4RMVkzEFYjxqyti1KhByvEacEdMWBpCuSSQ+IFRT84QjGPBCuz/cBom8PfSm3GjEsGc8PkdEEOEr";
 	public static final String routingStart = "http://www.onemap.sg/publictransportation/service1.svc/routesolns?token=";

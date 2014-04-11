@@ -27,7 +27,7 @@ public class BusTrainSelectorActivity extends Activity {
 	
 	public void startBusMode (View v) {
 		
-		Intent startBusIntent = new Intent (this, BusEnterNumberActivity.class);
+		Intent startBusIntent = new Intent (this, BusEnterDestinationActivity.class);
 		startActivity (startBusIntent);
 	}
 	

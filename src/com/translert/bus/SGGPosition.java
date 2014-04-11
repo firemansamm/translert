@@ -6,15 +6,14 @@ import net.qxcg.svy21.*;
 
 public class SGGPosition {
 	
-	public double x;
-	public double y;
+	public double easting;
+	public double northing;
 	public String title;
-	static private final int CONVERT_LATLNG_TO_SVY21 = 1;
 	
 	public SGGPosition (double x, double y, String title) {
 		
-		this.x = x;
-		this.y = y;
+		this.easting = x;
+		this.northing = y;
 		this.title = title;
 		
 	}
@@ -25,8 +24,8 @@ public class SGGPosition {
 			
 			SVY21Coordinate result = SVY21.computeSVY21(latitude, longitude);
 			
-			this.x = result.getEasting();
-			this.y = result.getNorthing();
+			this.easting = result.getEasting();
+			this.northing = result.getNorthing();
 			this.title = title;
 		}
 		
@@ -34,13 +33,13 @@ public class SGGPosition {
 	
 	public double getDistance(SGGPosition other) {
 		
-		return Math.sqrt(Math.pow(other.x - x, 2) + Math.pow (other.y - y, 2));
+		return Math.sqrt(Math.pow(other.easting - easting, 2) + Math.pow (other.northing - northing, 2));
 		
 	}
 	
 	public String format() {
 		
-		return title + " is at " + String.format("%.4f, %.4f",x ,y);
+		return title + " is at " + String.format("%.4f, %.4f",easting ,northing);
 		
 	}
 

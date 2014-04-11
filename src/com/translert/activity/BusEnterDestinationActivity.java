@@ -22,7 +22,8 @@ public class BusEnterDestinationActivity extends Activity {
 	boolean listenerFlag;
 	public static Handler uiHandler;
 	Intent inputIntent;
-	Intent outputIntent;
+	public static Intent outputIntent;
+	public static GPSTracker gps;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -30,9 +31,11 @@ public class BusEnterDestinationActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_bus_enter_destination);
 		
-		inputIntent = getIntent();
-		busNumber = inputIntent.getStringExtra("busNumber");
+//		inputIntent = getIntent();
+//		busNumber = inputIntent.getStringExtra("busNumber");
+		busNumber = "placeholder";
 		busDestinationTextbox = (EditText) findViewById(R.id.busDestinationTextbox);
+		gps = new GPSTracker(this);
 		
 		TextView.OnEditorActionListener keyListener = new TextView.OnEditorActionListener(){
 			
@@ -48,16 +51,15 @@ public class BusEnterDestinationActivity extends Activity {
 					outputIntent = new Intent (BusEnterDestinationActivity.this, BusProcessingActivity.class);
 					startActivity (outputIntent);
 					
-					outputIntent = new Intent (BusEnterDestinationActivity.this, com.translert.bus.ProcessingIntentService.class);
+					outputIntent = new Intent (BusEnterDestinationActivity.this, BusDistanceKeeperService.class);
 					outputIntent.putExtra("busNumber", busNumber);
 	                outputIntent.putExtra("busDestination", busDestination);
-	                outputIntent.putExtra("messageFlag", C.GET_DISTANCE_INIT);
 	                startService (outputIntent);
-	                Log.d("tranlert", "Intent sent to IntentService");
+	                Log.d("tranlert", "Intent sent to Service");
 	                
 				}
 				
-				return true;
+				return true; 
 				
 	        }
 			

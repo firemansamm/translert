@@ -16,9 +16,9 @@ public class TimerService extends Service {
 	public static Handler uiThreadHandler;
 	
 	static Message msg;
-	public static boolean activeFlag = false;
+	static boolean activeFlag = false;
 	
-	public static long totalTime;
+	private static long totalTime;
 	
 	public static int /*secondsRemaining = 0,*/ currentLeg = 0, legTotal = 0;
 	public static String endStation = "";
@@ -37,7 +37,7 @@ public class TimerService extends Service {
 	
 	@Override 
 	public int onStartCommand(Intent intent, int flags, int startId) {
-		if (activeFlag == false) {
+		if (!activeFlag) {
 			
 			activeFlag = true;
 			Bundle b = intent.getExtras();

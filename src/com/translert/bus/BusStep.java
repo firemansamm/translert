@@ -1,33 +1,20 @@
 package com.translert.bus;
 
 	public class BusStep {
-		String startCode;
-		SGGPosition startPosition;
-		String startTitle;
 		
-		String busCode;
+		private String startCode;
+		private SGGPosition startPosition;
+		private String startTitle;
 		
-		String endCode;
-		SGGPosition endPosition;
-		String endTitle;
+		private String busCode;
 		
-//		public BusStep(String startCode, SGGPosition startLatLng,
-//				String busCode,
-//				String endCode, SGGPosition endLatLng) {
-//			
-//			super();
-//			this.startCode = startCode;
-//			this.startLatLng = startLatLng;
-//			this.busCode = busCode;
-//			this.endCode = endCode;
-//			this.endLatLng = endLatLng;
-//			
-//		}
+		private String endCode;
+		private SGGPosition endPosition;
+		private String endTitle;
 		
 		public BusStep(String startCode, String startTitle, String busCode,
 				String endCode, String endTitle) {
 			
-			super();
 			this.startCode = startCode;
 			this.startTitle = startTitle;
 			this.startPosition = null;
@@ -48,7 +35,51 @@ package com.translert.bus;
 					//+"at location " + endPosition.format()
 					;
 		}
+
+		public String getStartCode() {
+			return startCode;
+		}
+
+		public SGGPosition getStartPosition() {
+			return startPosition;
+		}
+
+		public String getStartTitle() {
+			return startTitle;
+		}
+
+		public String getBusCode() {
+			return busCode;
+		}
+
+		public String getEndCode() {
+			return endCode;
+		}
+
+		public SGGPosition getEndPosition() {
+			return endPosition;
+		}
+
+		public String getEndTitle() {
+			return endTitle;
+		}
+
+		public void setStartPosition(SGGPosition startPosition) {
+			this.startPosition = startPosition;
+		}
+
+		public void setEndPosition(SGGPosition endPosition) {
+			this.endPosition = endPosition;
+		}
+		
+		public void setStartCode(String startCode) {
+			this.startCode = startCode;
+		}
+
+		public void setEndCode(String endCode) {
+			this.endCode = endCode;
+		}
 		
 		
-	
+		
 	}
