@@ -24,6 +24,7 @@ public class BusProcessingActivity extends Activity {
 		if (intent.hasExtra("kill")) {
 			finish();
 		}
+		
 	}
 
 }

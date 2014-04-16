@@ -14,8 +14,6 @@ import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
 
-import com.translert.activity.F.f;
-
 
 public class BusDistanceKeeperService extends Service {
 	
@@ -25,6 +23,7 @@ public class BusDistanceKeeperService extends Service {
 	
 	
 	private String busDestination;
+	private String busNumber;
 	private SGGPosition current;
 	static public SGGPosition destination;
 	
@@ -63,7 +62,8 @@ public class BusDistanceKeeperService extends Service {
 			Log.d("translert", "keeper service started");
 			
 			busDestination = intent.getStringExtra("busDestination");
-			Log.d("translert", " service received request for destination " + busDestination);
+			busNumber = intent.getStringExtra("busNumber");
+			Log.d("translert", " service received request for destination " + busDestination + " on route " + busNumber);
 			myHandler.post(getDistanceInitiateRunnable);
 			
 			return START_STICKY;
@@ -93,13 +93,14 @@ public class BusDistanceKeeperService extends Service {
 		@Override
 		public void run() {
 			// TODO Auto-generated method stub
-			current = f.getGPS();
-			Log.d("translert", current.format());
+			current = F.getGPS();
+			destination = F.getBusStopPosition (BusDistanceKeeperService.this, busDestination, busNumber);
 			
-			destination = f.getSdBusStopPosition (busDestination);
-			Log.d("translert", destination.format());
 			
 			if (destination != null && current !=null) {
+
+				Log.d("translert", current.format());
+				Log.d("translert", destination.format());
 				
 				distance = current.getDistance(destination);
 				Log.d("translert", "initial distance is " + distance);
@@ -119,8 +120,14 @@ public class BusDistanceKeeperService extends Service {
 				myHandler.post(getDistancePeriodicRunnable);
 				
 				
-			} else {
-				Log.d("translert", "null position(s)");
+			} else if (destination == null) {
+				Log.d("translert", "cannot get destination position");
+				Intent outputIntent = new Intent (BusDistanceKeeperService.this, BusProgressActivity.class);
+				outputIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+				outputIntent.putExtra("nullDestination", busDestination);
+				outputIntent.putExtra("busNumber", busNumber);
+				startActivity(outputIntent);
+				BusDistanceKeeperService.this.stopSelf();
 			}
 		}
 		
@@ -132,7 +139,7 @@ public class BusDistanceKeeperService extends Service {
 		@Override
 		public void run() {
 			// TODO Auto-generated method stub
-			current = f.getGPS();
+			current = F.getGPS();
 			if (current != null && destination!= null) {
 //				distance = current.getDistance(destination);
 				

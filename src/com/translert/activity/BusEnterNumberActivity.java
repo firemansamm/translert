@@ -25,7 +25,6 @@ public class BusEnterNumberActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_bus_enter_number);
 		
-		gps = new GPSTracker(this);
 		busNoTextBox = (EditText) findViewById(R.id.busNoTextBox);
 		
 		

@@ -15,6 +15,9 @@ import android.app.PendingIntent;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.DialogInterface.OnClickListener;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -30,27 +33,37 @@ public class BusProgressActivity extends Activity {
 	static String distance;
 	public static Handler handler;
 	
-//	static NotificationManager nm;
-//	static PendingIntent pi;
-//	static Notification nf;
+	static NotificationManager nm;
+	static PendingIntent pi;
+	static Notification nf;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
 		
 		Intent killIntent = new Intent (this, BusProcessingActivity.class);
 		killIntent.putExtra("kill", true);
 		killIntent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-        killIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+		killIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
 		startActivity(killIntent);
 		
-		super.onCreate(savedInstanceState);
+		if (getIntent().hasExtra("nullDestination")) {
+			Intent reEnterDestination = new Intent (this, BusEnterDestinationActivity.class);
+			reEnterDestination.putExtras( getIntent().getExtras() );
+			reEnterDestination.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+			reEnterDestination.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+			startActivity(reEnterDestination);
+			finish();
+		}
+		
+		
 		setContentView(R.layout.activity_bus_progress);
 		
 		handler = new Handler(new HandlerCallback());
 		distanceCounter = (TextView) findViewById(R.id.distance_counter);
 		
-//		nm = (NotificationManager) getSystemService(android.content.Context.NOTIFICATION_SERVICE);
-//		pi = PendingIntent.getActivity(this, 0, new Intent(this, BusProgressActivity.class), PendingIntent.FLAG_UPDATE_CURRENT);
+		nm = (NotificationManager) getSystemService(android.content.Context.NOTIFICATION_SERVICE);
+		pi = PendingIntent.getActivity(this, 0, new Intent(this, BusProgressActivity.class), PendingIntent.FLAG_UPDATE_CURRENT);
 		
 		
 		distance = getIntent().getStringExtra("distance");
@@ -68,8 +81,8 @@ public class BusProgressActivity extends Activity {
 			case C.RETURN_DISTANCE:
 				distance = (String) msg.obj;
 				distanceCounter.setText(distance);
-//				nf = (new NotificationCompat.Builder(WatchActivity.activity)).setOngoing(true).setContentTitle("Approximately " + distance  +" to destination.").setContentText("Currently en route to " + BusDistanceKeeperService.destination.title + ".").setSmallIcon(R.drawable.ic_launcher).setContentIntent(pi).getNotification();
-//				nm.notify(0, nf);
+				nf = (new NotificationCompat.Builder(BusProgressActivity.this)).setOngoing(true).setContentTitle("Approximately " + distance  +" to destination.").setContentText("Currently en route to " + BusDistanceKeeperService.destination.title + ".").setSmallIcon(R.drawable.ic_launcher).setContentIntent(pi).getNotification();
+				nm.notify(0, nf);
 				break;
 			
 			
@@ -78,11 +91,17 @@ public class BusProgressActivity extends Activity {
 				beepIntent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
 				startActivity(beepIntent);
 				
+				Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
+				final Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), notification);
+				r.play();
+				
 				new AlertDialog.Builder(BusProgressActivity.this).setMessage("Wake up! You're almost at your destination").setTitle("Translert").setPositiveButton("Yes", new OnClickListener(){
-					@TargetApi(Build.VERSION_CODES.HONEYCOMB)
+					
+					
 					@Override
 					public void onClick(DialogInterface dialog, int id) {
-//						BusProgressActivity.nm.cancel(0);
+						BusProgressActivity.nm.cancel(0);
+						r.stop();
 						Intent restartIntent = new Intent(BusProgressActivity.this, BusTrainSelectorActivity.class);
 						restartIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 						startActivity(restartIntent);

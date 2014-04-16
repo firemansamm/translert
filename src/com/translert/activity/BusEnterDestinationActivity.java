@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.translert.R;
 import com.translert.R.id;
@@ -20,9 +21,8 @@ public class BusEnterDestinationActivity extends Activity {
 	String busDestination;
 	EditText busDestinationTextbox;
 	boolean listenerFlag;
-	public static Handler uiHandler;
 	Intent inputIntent;
-	public static Intent outputIntent;
+	static Intent outputIntent;
 	public static GPSTracker gps;
 	
 	@Override
@@ -31,9 +31,9 @@ public class BusEnterDestinationActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_bus_enter_destination);
 		
-//		inputIntent = getIntent();
-//		busNumber = inputIntent.getStringExtra("busNumber");
-		busNumber = "placeholder";
+		inputIntent = getIntent();
+		busNumber = inputIntent.getStringExtra("busNumber");
+//		busNumber = "placeholder";
 		busDestinationTextbox = (EditText) findViewById(R.id.busDestinationTextbox);
 		gps = new GPSTracker(this);
 		
@@ -73,6 +73,16 @@ public class BusEnterDestinationActivity extends Activity {
 	protected void onResume() {
 		super.onResume();
 		listenerFlag = true;
+	}
+	
+	@Override
+	protected void onNewIntent(Intent intent) {
+		if (intent.hasExtra("nullDestination")) {
+			String busDestination = intent.getStringExtra("nullDestination");
+			String busNumber = intent.getStringExtra("busNumber");
+			Toast.makeText(this, "Cannot find " + busDestination + " on bus route " + busNumber, Toast.LENGTH_LONG).show();
+		}
+		
 	}
 
 }
