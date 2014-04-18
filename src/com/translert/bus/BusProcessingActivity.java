@@ -1,9 +1,8 @@
-package com.translert.activity;
+package com.translert.bus;
 
 import com.translert.R;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 

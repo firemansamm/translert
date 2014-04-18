@@ -1,8 +1,11 @@
-package com.translert;
+package com.translert.train.utils;
 
 import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
+
+import com.translert.R;
+import com.translert.train.MainActivity;
 
 import android.content.Context;
 import android.view.LayoutInflater;

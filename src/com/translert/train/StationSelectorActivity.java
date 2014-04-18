@@ -1,4 +1,4 @@
-package com.translert;
+package com.translert.train;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -6,6 +6,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.actionbarsherlock.app.SherlockActivity;
+import com.translert.R;
+import com.translert.train.utils.PathFinder;
+import com.translert.train.utils.Station;
 
 import android.content.Intent;
 import android.os.Bundle;

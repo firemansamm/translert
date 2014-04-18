@@ -1,4 +1,4 @@
-package com.translert.bus;
+package com.translert.bus.utils;
 
 public final class C {
 	public static final int CONVERT_LATLNG_TO_SVY21 = 21;
@@ -9,8 +9,10 @@ public final class C {
 	public static final int GET_DISTANCE = 103;
 	public static final int RETURN_DISTANCE = 102;
 	public static final int RETURN_DISTANCE_REACHED = 404;
-	public static final long DELAY_LONG = 5 * 1000;
-	public static final long DELAY_SHORT = 2 * 1000;
+	public static final long DELAY_LONG_SIMULATOR = 5 * 1000;
+	public static final long DELAY_SHORT_SIMULATOR = 333;
+	public static final long DELAY_LONG = 5 * 60 * 1000;
+	public static final long DELAY_SHORT = 1 * 60 * 1000;
 	
 	
 	public static final String token = "qo/s2TnSUmfLz+32CvLC4RMVkzEFYjxqyti1KhByvEacEdMWBpCuSSQ+IFRT84QjGPBCuz/cBom8PfSm3GjEsGc8PkdEEOEr";

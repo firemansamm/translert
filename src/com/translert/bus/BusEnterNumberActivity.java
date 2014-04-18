@@ -1,16 +1,13 @@
-package com.translert.activity;
+package com.translert.bus;
 
 import com.translert.R;
-import com.translert.R.id;
-import com.translert.R.layout;
-import com.translert.bus.GPSTracker;
+import com.translert.bus.utils.GPSTracker;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -24,6 +21,11 @@ public class BusEnterNumberActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_bus_enter_number);
+		
+		gps = new GPSTracker(this);
+		if (!gps.canGetGPS()) {
+			gps.showSettingsAlert();
+		}
 		
 		busNoTextBox = (EditText) findViewById(R.id.busNoTextBox);
 		

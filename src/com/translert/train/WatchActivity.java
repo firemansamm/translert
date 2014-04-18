@@ -1,8 +1,9 @@
-package com.translert;
+package com.translert.train;
 
 
 
-import com.translert.bus.C;
+import com.translert.R;
+import com.translert.bus.utils.C;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -12,6 +13,9 @@ import android.app.PendingIntent;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -59,7 +63,8 @@ public class WatchActivity extends Activity {
 	
 	
 	public void process (View v){
-		stopService(WatchActivity.serviceIntent);
+		Log.d("translert", "try to stop service");
+		stopService( new Intent(this, TimerService.class) );
 		nm.cancel(0);
 		finish();
 	}
@@ -81,7 +86,7 @@ public class WatchActivity extends Activity {
 			case C.RETURN_TIMER_RUNNING:
 				
 				timeString = (String) msg.obj;
-				nf = (new NotificationCompat.Builder(WatchActivity.activity)).setOngoing(true).setContentTitle("Approximately " + timeString + " to destination.").setContentText("Currently en route to " + TimerService.endStation + ".").setSmallIcon(R.drawable.ic_launcher).setContentIntent(pi).getNotification();
+				nf = (new NotificationCompat.Builder(WatchActivity.this)).setOngoing(true).setContentTitle("Approximately " + timeString + " to destination.").setContentText("Currently en route to " + TimerService.endStation + ".").setSmallIcon(R.drawable.ic_launcher).setContentIntent(pi).getNotification();
 				nm.notify(0, nf);
 				
 				Log.d("translert", timeString);
@@ -96,10 +101,15 @@ public class WatchActivity extends Activity {
 				beepIntent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
 				startActivity(beepIntent);
 				
+				Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
+				final Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), notification);
+				r.play();
+				
 				new AlertDialog.Builder(WatchActivity.this).setMessage("Wake up! You're almost at " + TimerService.endStation + "!").setTitle("Translert").setPositiveButton("Yes", new OnClickListener(){
 					@Override
 					public void onClick(DialogInterface dialog, int id) {
 						WatchActivity.nm.cancel(0);
+						r.stop();
 						if(TimerService.currentLeg < TimerService.legTotal){
 							Intent interimIntent = new Intent(WatchActivity.this, InterimActivity.class);
 							interimIntent.putExtra("leg", TimerService.currentLeg + 1);

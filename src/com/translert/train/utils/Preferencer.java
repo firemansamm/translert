@@ -1,4 +1,4 @@
-package com.translert;
+package com.translert.train.utils;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -9,6 +9,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
+import com.translert.train.MainActivity;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 
@@ -18,7 +20,7 @@ public class Preferencer {
 	MainActivity baseActivity;
 	public ArrayList<Trip> recent = new ArrayList<Trip>();
 	
-	Preferencer(MainActivity a){
+	public Preferencer(MainActivity a){
 		baseActivity = a;
 		prefs = a.getSharedPreferences("prefs", Context.MODE_PRIVATE);
 		loadObj();

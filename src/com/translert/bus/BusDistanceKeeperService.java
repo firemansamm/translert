@@ -1,20 +1,25 @@
-package com.translert.activity;
+package com.translert.bus;
 
 
-import com.translert.bus.C;
-import com.translert.bus.GPSTracker;
-import com.translert.bus.SGGPosition;
+import java.util.concurrent.TimeUnit;
 
+import com.translert.bus.utils.C;
+import com.translert.bus.utils.SGGPosition;
+
+import android.annotation.SuppressLint;
 import android.app.Service;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.IBinder;
 import android.os.Looper;
 import android.os.Message;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 
+@SuppressLint("DefaultLocale")
 public class BusDistanceKeeperService extends Service {
 	
 	static HandlerThread keeper;
@@ -27,6 +32,7 @@ public class BusDistanceKeeperService extends Service {
 	private SGGPosition current;
 	static public SGGPosition destination;
 	
+	private int threshold;
 	private double distance;
 	Message msg;
 	
@@ -51,6 +57,9 @@ public class BusDistanceKeeperService extends Service {
 		Looper keeperLooper = keeper.getLooper();
 		myHandler = new Handler (keeperLooper);
 		
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+		threshold = Integer.parseInt(  preferences.getString("alarm_distance", "0")  );
+		Log.d("translert", Integer.toString(threshold));
 		
 	}
 	
@@ -96,8 +105,17 @@ public class BusDistanceKeeperService extends Service {
 			current = F.getGPS();
 			destination = F.getBusStopPosition (BusDistanceKeeperService.this, busDestination, busNumber);
 			
-			
-			if (destination != null && current !=null) {
+			if (current == null) {
+				
+			}else if (destination == null) {
+				Log.d("translert", "cannot get destination position");
+				Intent outputIntent = new Intent (BusDistanceKeeperService.this, BusProgressActivity.class);
+				outputIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+				outputIntent.putExtra("nullDestination", busDestination);
+				outputIntent.putExtra("busNumber", busNumber);
+				startActivity(outputIntent);
+				BusDistanceKeeperService.this.stopSelf();
+			} else {
 
 				Log.d("translert", current.format());
 				Log.d("translert", destination.format());
@@ -117,18 +135,11 @@ public class BusDistanceKeeperService extends Service {
 				} catch (InterruptedException e) {}
 				
 				uiHandler = BusProgressActivity.handler;
-				myHandler.post(getDistancePeriodicRunnable);
+				myHandler.post(getDistancePeriodicRunnableSimulator);
+//				myHandler.post(getDistancePeriodicRunnable);
 				
-				
-			} else if (destination == null) {
-				Log.d("translert", "cannot get destination position");
-				Intent outputIntent = new Intent (BusDistanceKeeperService.this, BusProgressActivity.class);
-				outputIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-				outputIntent.putExtra("nullDestination", busDestination);
-				outputIntent.putExtra("busNumber", busNumber);
-				startActivity(outputIntent);
-				BusDistanceKeeperService.this.stopSelf();
 			}
+			
 		}
 		
 	};
@@ -138,23 +149,17 @@ public class BusDistanceKeeperService extends Service {
 
 		@Override
 		public void run() {
-			// TODO Auto-generated method stub
 			current = F.getGPS();
-			if (current != null && destination!= null) {
-//				distance = current.getDistance(destination);
-				
+			if (current != null) {
+				distance = current.getDistance(destination);
 				
 				if (distance > 2000) {
 					msg = uiHandler.obtainMessage(C.RETURN_DISTANCE, formatDistanceToString(distance));
 					uiHandler.sendMessage(msg);
-					
-					distance -= 1200;
 					myHandler.postDelayed(getDistancePeriodicRunnable, C.DELAY_LONG);	
-				} else if (distance <=2000 && distance > 400) {
+				} else if (distance <=2000 && distance > threshold) {
 					msg = uiHandler.obtainMessage(C.RETURN_DISTANCE, formatDistanceToString(distance));
 					uiHandler.sendMessage(msg);
-					
-					distance -= 400;
 					myHandler.postDelayed(getDistancePeriodicRunnable, C.DELAY_SHORT);
 				} else {
 					uiHandler.sendEmptyMessage(C.RETURN_DISTANCE_REACHED);
@@ -163,6 +168,7 @@ public class BusDistanceKeeperService extends Service {
 					BusDistanceKeeperService.this.stopSelf();
 				}
 				
+				
 			} else {
 				Log.d("translert", "periodical updates failed");
 			}
@@ -170,6 +176,34 @@ public class BusDistanceKeeperService extends Service {
 		}
 		
 	};
+	
+	private Runnable getDistancePeriodicRunnableSimulator = new Runnable() {
+
+		@Override
+		public void run() {
+			
+			if (distance > 2000) {
+				msg = uiHandler.obtainMessage(C.RETURN_DISTANCE, formatDistanceToString(distance));
+				uiHandler.sendMessage(msg);
+				myHandler.postDelayed(getDistancePeriodicRunnableSimulator, C.DELAY_LONG_SIMULATOR);
+				distance -= 1200;
+			} else if (distance <=2000 && distance > threshold) {
+				msg = uiHandler.obtainMessage(C.RETURN_DISTANCE, formatDistanceToString(distance));
+				uiHandler.sendMessage(msg);
+				myHandler.postDelayed(getDistancePeriodicRunnableSimulator, C.DELAY_SHORT_SIMULATOR);
+				distance -= 50;
+			} else {
+				uiHandler.sendEmptyMessage(C.RETURN_DISTANCE_REACHED);
+				myHandler.removeCallbacksAndMessages(null);
+				keeper.quit();
+				BusDistanceKeeperService.this.stopSelf();
+			}
+			
+		}
+		
+	};
+	
+
 	
 	
 	private String formatDistanceToString(double distance) {

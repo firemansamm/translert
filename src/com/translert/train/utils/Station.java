@@ -1,4 +1,4 @@
-package com.translert;
+package com.translert.train.utils;
 
 import java.util.ArrayList;
 import java.util.HashMap;

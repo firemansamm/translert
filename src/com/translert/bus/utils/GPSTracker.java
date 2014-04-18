@@ -1,4 +1,4 @@
-package com.translert.bus;
+package com.translert.bus.utils;
 
 import android.app.AlertDialog;
 import android.app.Service;
@@ -146,6 +146,15 @@ public class GPSTracker extends Service implements LocationListener {
 	public boolean canGetLocation() {
 		return this.canGetLocation;
 	}
+	
+	/**
+	 * Function to check GPS enabled
+	 * @return boolean
+	 * */
+	public boolean canGetGPS() {
+		return this.isGPSEnabled;
+	}
+	
 	
 	/**
 	 * Function to show settings alert dialog

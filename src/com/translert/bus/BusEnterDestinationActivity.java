@@ -1,9 +1,8 @@
-package com.translert.activity;
+package com.translert.bus;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.widget.EditText;
@@ -11,9 +10,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.translert.R;
-import com.translert.R.id;
-import com.translert.R.layout;
-import com.translert.bus.*;
 
 public class BusEnterDestinationActivity extends Activity {
 	
@@ -23,7 +19,6 @@ public class BusEnterDestinationActivity extends Activity {
 	boolean listenerFlag;
 	Intent inputIntent;
 	static Intent outputIntent;
-	public static GPSTracker gps;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +30,7 @@ public class BusEnterDestinationActivity extends Activity {
 		busNumber = inputIntent.getStringExtra("busNumber");
 //		busNumber = "placeholder";
 		busDestinationTextbox = (EditText) findViewById(R.id.busDestinationTextbox);
-		gps = new GPSTracker(this);
+		
 		
 		TextView.OnEditorActionListener keyListener = new TextView.OnEditorActionListener(){
 			

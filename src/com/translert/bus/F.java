@@ -1,9 +1,8 @@
-package com.translert.activity;
+package com.translert.bus;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
-import java.lang.reflect.Array;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URLEncoder;
@@ -22,18 +21,18 @@ import org.json.JSONObject;
 import android.content.Context;
 import android.util.Log;
 
-import com.translert.bus.BusRoute;
-import com.translert.bus.BusStep;
-import com.translert.bus.C;
-import com.translert.bus.GPSTracker;
-import com.translert.bus.SGGPosition;
+import com.translert.bus.utils.BusRoute;
+import com.translert.bus.utils.BusStep;
+import com.translert.bus.utils.C;
+import com.translert.bus.utils.GPSTracker;
+import com.translert.bus.utils.SGGPosition;
 
 public class F {
 	
 		
 		public static SGGPosition getGPS() {
 			
-			GPSTracker gps = BusEnterDestinationActivity.gps;
+			GPSTracker gps = BusEnterNumberActivity.gps;
 			
 			SGGPosition currentPosition = null; 
 			

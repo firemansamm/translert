@@ -1,4 +1,7 @@
-package com.translert;
+package com.translert.train;
+
+import com.translert.R;
+import com.translert.train.utils.PathFinder;
 
 import android.app.Activity;
 import android.content.Intent;

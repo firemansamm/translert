@@ -10,5 +10,33 @@
     <string name="whereto">Where would you like to go?</string>
     <string name="line_label">Station Line:</string>
     <string name="station_label">Station Name:</string>
-
+    
+    <string name="alarm_timing">Train Alarm</string>
+    <string-array name="timing_list">
+        <item>1 minute </item>
+        <item>2 minutes</item>
+        <item>5 minutes</item>        
+    </string-array>
+    <string-array name="timing_list_value">
+        <item>1</item>
+        <item>2</item>
+        <item>5</item>        
+    </string-array>
+    <string name="default_timing">2</string>
+    <string name="timing_description">Time to ring alarm before destination</string>
+    
+    <string name="alarm_distance">Bus Alarm</string>
+    <string-array name="distance_list">
+        <item>50m</item>
+        <item>100m</item>
+        <item>200m</item>        
+    </string-array>
+    <string-array name="distance_list_value">
+        <item>50</item>
+        <item>100</item>
+        <item>200</item>        
+    </string-array>
+    <string name="default_distance">100</string>
+    <string name="distance_description">How far before destination to trigger alarm</string>
+    
 </resources>

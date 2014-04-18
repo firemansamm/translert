@@ -1,4 +1,4 @@
-package com.translert;
+package com.translert.train;
 
 import com.actionbarsherlock.app.SherlockActivity;
 
@@ -9,7 +9,12 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
-import com.actionbarsherlock.view.Menu;
+import com.translert.R;
+import com.translert.train.utils.PathFinder;
+import com.translert.train.utils.Preferencer;
+import com.translert.train.utils.RecentTripsAdapter;
+import com.translert.train.utils.Station;
+import com.translert.train.utils.Trip;
 
 public class MainActivity extends SherlockActivity {
 	
@@ -54,12 +59,4 @@ public class MainActivity extends SherlockActivity {
 			}
 		});
 	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getSupportMenuInflater().inflate(R.menu.main, menu);
-		return true;
-	}
-
 }

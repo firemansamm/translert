@@ -1,12 +1,9 @@
-package com.translert.activity;
+package com.translert.bus;
 
-import com.translert.InterimActivity;
+import com.translert.BusTrainSelectorActivity;
 import com.translert.R;
-import com.translert.TimerService;
-import com.translert.WatchActivity;
-import com.translert.bus.C;
+import com.translert.bus.utils.C;
 
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Notification;
@@ -18,12 +15,10 @@ import android.content.DialogInterface.OnClickListener;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.NotificationCompat;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -73,6 +68,7 @@ public class BusProgressActivity extends Activity {
 	
 	class HandlerCallback implements Handler.Callback {
 
+		@SuppressWarnings("deprecation")
 		@Override
 		public boolean handleMessage(Message msg) {
 			

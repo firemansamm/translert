@@ -1,17 +1,21 @@
-package com.translert.activity;
+package com.translert;
 
-import com.translert.MainActivity;
+import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
 import com.translert.R;
-import com.translert.bus.SGGPosition;
+import com.translert.bus.BusEnterNumberActivity;
+import com.translert.train.MainActivity;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 
-public class BusTrainSelectorActivity extends Activity {
+public class BusTrainSelectorActivity extends SherlockActivity {
 	
 	public Context context = this;
 
@@ -19,10 +23,6 @@ public class BusTrainSelectorActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_bus_train);
-		
-		SGGPosition trythisout = F.getBusStopPosition(this, "Blk 410", "14");
-		Log.d("translert", trythisout.format());
-		
 	}
 	
 	public void startMRTMode (View v) {
@@ -37,7 +37,19 @@ public class BusTrainSelectorActivity extends Activity {
 		startActivity (startBusIntent);
 	}
 	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getSupportMenuInflater().inflate(R.menu.main, menu);
+		return true;
+	}
 	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		startActivity(new Intent(this, ShowPreferenceActivity.class));
+		
+		return true;
+	}
 	
 
 }

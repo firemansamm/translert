@@ -5,7 +5,7 @@
     android:versionName="1.0" >
 
     <uses-sdk
-        android:minSdkVersion="8"
+        android:minSdkVersion="9"
         android:targetSdkVersion="19" />
     
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />	
@@ -19,68 +19,72 @@
         android:theme="@style/AppTheme" >
         
         <activity
-            android:name="com.translert.MainActivity"
-            android:label="@string/app_name" />
-        <activity
-            android:name="com.translert.StationSelectorActivity"
-            android:label="@string/app_name" />
-        <activity
-            android:name="com.translert.TripOverviewActivity"
-            android:label="@string/app_name" />
-        <activity
-            android:name="com.translert.InterimActivity"
-            android:label="@string/app_name" />
-        <activity
-            android:name="com.translert.WatchActivity"
-            android:label="@string/app_name" android:launchMode="singleInstance"/>
-        <service 
-            android:name="com.translert.TimerService"/>
-        
-        
-        <activity
-            android:name="com.translert.activity.BusTrainSelectorActivity"
+            android:name="com.translert.BusTrainSelectorActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
    			android:configChanges="orientation|keyboardHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        
         <activity
-            android:name="com.translert.activity.BusEnterNumberActivity"
+            android:name="com.translert.ShowPreferenceActivity"
+            android:label="@string/app_name" />
+        
+        <activity
+            android:name="com.translert.train.MainActivity"
+            android:label="@string/app_name" />
+        <activity
+            android:name="com.translert.train.StationSelectorActivity"
+            android:label="@string/app_name" />
+        <activity
+            android:name="com.translert.train.TripOverviewActivity"
+            android:label="@string/app_name" />
+        <activity
+            android:name="com.translert.train.InterimActivity"
+            android:label="@string/app_name" />
+        <activity
+            android:name="com.translert.train.WatchActivity"
+            android:label="@string/app_name" android:launchMode="singleInstance"
+            android:screenOrientation="portrait"
+   			android:configChanges="orientation|keyboardHidden"/>
+        <service 
+            android:name="com.translert.train.TimerService"/>
+        
+        
+        
+        <activity
+            android:name="com.translert.bus.BusEnterNumberActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
    			android:configChanges="orientation|keyboardHidden"/>
         <activity
-            android:name="com.translert.activity.BusEnterDestinationActivity"
+            android:name="com.translert.bus.BusEnterDestinationActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
    			android:configChanges="orientation|keyboardHidden"/>
         <activity
-            android:name="com.translert.activity.BusProcessingActivity"
+            android:name="com.translert.bus.BusProcessingActivity"
             android:label="@string/app_name"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
    			android:configChanges="orientation|keyboardHidden"/>
         <activity
-            android:name="com.translert.activity.BusProgressActivity"
+            android:name="com.translert.bus.BusProgressActivity"
             android:label="@string/app_name"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
    			android:configChanges="orientation|keyboardHidden"/>
         <activity
-            android:name="com.translert.activity.BusAlertActivity"
+            android:name="com.translert.bus.activity.BusAlertActivity"
             android:label="@string/app_name"
             android:theme ="@android:style/Theme.Black.NoTitleBar.Fullscreen"
             android:screenOrientation="portrait"
    			android:configChanges="orientation|keyboardHidden"/>
         <service
-            android:name="com.translert.activity.BusIntentService"/>
-        <service
-            android:name="com.translert.activity.BusDistanceKeeperService"/>
-        
+            android:name="com.translert.bus.BusDistanceKeeperService"   />
         
         
     </application>

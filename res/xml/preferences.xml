@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <ListPreference
+        android:key="alarm_timing"
+        android:title="@string/alarm_timing"
+        android:entries="@array/timing_list"
+        android:entryValues="@array/timing_list_value"
+        android:defaultValue="@string/default_timing"
+        android:summary="@string/timing_description"/>
+    <ListPreference
+        android:key="alarm_distance"
+        android:title="@string/alarm_distance"
+        android:entries="@array/distance_list"
+        android:entryValues="@array/distance_list_value"
+        android:defaultValue="@string/default_distance"
+        android:summary="@string/distance_description" />
+    
+    
+</PreferenceScreen>

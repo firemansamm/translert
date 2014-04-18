@@ -1,4 +1,4 @@
-package com.translert.bus;
+package com.translert.bus.utils;
 
 public class BusRoute  {
 	
