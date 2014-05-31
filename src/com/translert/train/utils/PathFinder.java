@@ -19,7 +19,7 @@ public class PathFinder {
 	//experimental implementation of Dijkstra's algorithm with comparators...
 	//TODO: needs more accurate edge weights
 	
-	int changeTime = 4, stationTime = 3; //est time for changing trains is 4 mins according to SMRT, assume avg time of 3 mins betw statinos
+	int changeTime = 4, stationTime = 2; //est time for changing trains is 4 mins according to SMRT, assume avg time of 3 mins betw statinos
 	public static State answer;
 	
 	public class Transfer{

@@ -61,8 +61,8 @@ public class TimerService extends Service {
 					new String[] {"Arriving at " + endStation + " in:", "Part " + currentLeg + " of " + legTotal+ " trip"});
 			uiThreadHandler.sendMessage(msg);
 			
-//			myCountDownTimer = new MyCountDownTimer(totalTime - offset, 1000L);
-			myCountDownTimer = new MyCountDownTimer(10000L, 1000L);
+			myCountDownTimer = new MyCountDownTimer(totalTime - offset, 1000L);
+			//myCountDownTimer = new MyCountDownTimer(10000L, 1000L);
 			myCountDownTimer.start();
 			return START_STICKY;
 			
