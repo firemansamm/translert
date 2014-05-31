@@ -1,8 +1,5 @@
 package com.translert.bus;
 
-
-import java.util.concurrent.TimeUnit;
-
 import com.translert.bus.utils.C;
 import com.translert.bus.utils.SGGPosition;
 
@@ -58,7 +55,7 @@ public class BusDistanceKeeperService extends Service {
 		myHandler = new Handler (keeperLooper);
 		
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-		threshold = Integer.parseInt(  preferences.getString("alarm_distance", "0")  );
+		threshold = Integer.parseInt(  preferences.getString("alarm_distance", "400")  );
 		Log.d("translert", Integer.toString(threshold));
 		
 	}
@@ -135,8 +132,8 @@ public class BusDistanceKeeperService extends Service {
 				} catch (InterruptedException e) {}
 				
 				uiHandler = BusProgressActivity.handler;
-				myHandler.post(getDistancePeriodicRunnableSimulator);
-//				myHandler.post(getDistancePeriodicRunnable);
+//				myHandler.post(getDistancePeriodicRunnableSimulator);
+				myHandler.post(getDistancePeriodicRunnable);
 				
 			}
 			
@@ -144,6 +141,11 @@ public class BusDistanceKeeperService extends Service {
 		
 	};
 	
+	private void parseDistance(long delay) {
+		msg = uiHandler.obtainMessage(C.RETURN_DISTANCE, formatDistanceToString(distance));
+		uiHandler.sendMessage(msg);
+		myHandler.postDelayed(getDistancePeriodicRunnable, delay);
+	}
 	
 	private Runnable getDistancePeriodicRunnable = new Runnable() {
 
@@ -151,16 +153,13 @@ public class BusDistanceKeeperService extends Service {
 		public void run() {
 			current = F.getGPS();
 			if (current != null) {
+				Log.d("translert", current.format());
 				distance = current.getDistance(destination);
 				
 				if (distance > 2000) {
-					msg = uiHandler.obtainMessage(C.RETURN_DISTANCE, formatDistanceToString(distance));
-					uiHandler.sendMessage(msg);
-					myHandler.postDelayed(getDistancePeriodicRunnable, C.DELAY_LONG);	
-				} else if (distance <=2000 && distance > threshold) {
-					msg = uiHandler.obtainMessage(C.RETURN_DISTANCE, formatDistanceToString(distance));
-					uiHandler.sendMessage(msg);
-					myHandler.postDelayed(getDistancePeriodicRunnable, C.DELAY_SHORT);
+					parseDistance(C.DELAY_LONG_SIMULATOR);	
+				} else if (distance <= 2000 && distance > threshold) {
+					parseDistance(C.DELAY_SHORT_SIMULATOR);
 				} else {
 					uiHandler.sendEmptyMessage(C.RETURN_DISTANCE_REACHED);
 					myHandler.removeCallbacksAndMessages(null);
@@ -176,21 +175,17 @@ public class BusDistanceKeeperService extends Service {
 		}
 		
 	};
-	
+	/*
 	private Runnable getDistancePeriodicRunnableSimulator = new Runnable() {
 
 		@Override
 		public void run() {
 			
 			if (distance > 2000) {
-				msg = uiHandler.obtainMessage(C.RETURN_DISTANCE, formatDistanceToString(distance));
-				uiHandler.sendMessage(msg);
-				myHandler.postDelayed(getDistancePeriodicRunnableSimulator, C.DELAY_LONG_SIMULATOR);
+				parseDistance(C.DELAY_LONG_SIMULATOR);
 				distance -= 1200;
 			} else if (distance <=2000 && distance > threshold) {
-				msg = uiHandler.obtainMessage(C.RETURN_DISTANCE, formatDistanceToString(distance));
-				uiHandler.sendMessage(msg);
-				myHandler.postDelayed(getDistancePeriodicRunnableSimulator, C.DELAY_SHORT_SIMULATOR);
+				parseDistance(C.DELAY_SHORT_SIMULATOR);
 				distance -= 50;
 			} else {
 				uiHandler.sendEmptyMessage(C.RETURN_DISTANCE_REACHED);
@@ -202,7 +197,7 @@ public class BusDistanceKeeperService extends Service {
 		}
 		
 	};
-	
+	*/
 
 	
 	
@@ -213,6 +208,4 @@ public class BusDistanceKeeperService extends Service {
 			return String.format("%s m", Math.round(distance)  );
 		}
 	}
-	
-
 }

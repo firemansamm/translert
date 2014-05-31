@@ -30,6 +30,10 @@
         </activity>
         
         <activity
+            android:name="com.translert.RoutePlanningActivity"
+            android:label="@string/app_name"/>
+        
+        <activity
             android:name="com.translert.ShowPreferenceActivity"
             android:label="@string/app_name" />
         

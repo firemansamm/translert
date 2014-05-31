@@ -18,7 +18,7 @@ public class BusRoute  {
 		
 		for (int i = 0; i < step.length; i++) {
         	BusStep currentStep = step[i];
-        	output += currentStep.format() + currentStep.getStartPosition().format() + currentStep.getEndPosition().format();
+        	output += currentStep.format();// + currentStep.getStartPosition().format() + currentStep.getEndPosition().format();
         }
 		
 		return output;

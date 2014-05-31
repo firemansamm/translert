@@ -1,7 +1,6 @@
 package com.translert.bus;
 
 import com.translert.R;
-import com.translert.bus.utils.GPSTracker;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -15,17 +14,14 @@ public class BusEnterNumberActivity extends Activity {
 	
 	EditText busNoTextBox;
 	boolean listenerFlag;
-	public static GPSTracker gps;
+//	public static GPSTracker gps;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_bus_enter_number);
 		
-		gps = new GPSTracker(this);
-		if (!gps.canGetGPS()) {
-			gps.showSettingsAlert();
-		}
+		
 		
 		busNoTextBox = (EditText) findViewById(R.id.busNoTextBox);
 		

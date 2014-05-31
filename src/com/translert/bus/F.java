@@ -19,8 +19,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
+import android.location.Location;
 import android.util.Log;
 
+import com.translert.BusTrainSelectorActivity;
 import com.translert.bus.utils.BusRoute;
 import com.translert.bus.utils.BusStep;
 import com.translert.bus.utils.C;
@@ -32,15 +34,14 @@ public class F {
 		
 		public static SGGPosition getGPS() {
 			
-			GPSTracker gps = BusEnterNumberActivity.gps;
+			GPSTracker gps = BusTrainSelectorActivity.gps;
 			
 			SGGPosition currentPosition = null; 
 			
 			if (gps.canGetLocation()) {
-				
+				Location current = gps.getLocation();
 	        	currentPosition = 
-	        			new SGGPosition (gps.getLatitude(), gps.getLongitude(), "Current position", C.CONVERT_LATLNG_TO_SVY21);
-	        	
+	        			new SGGPosition (current.getLatitude(), current.getLongitude(), "Current position", C.CONVERT_LATLNG_TO_SVY21);
 	        } else {
 	        	
 	        	//gps.showSettingsAlert();
@@ -85,10 +86,9 @@ public class F {
 						
 						String name = currentObject.getString("name").toLowerCase();
 						String no = String.format("%05d", currentObjectStopNo);
-						Log.d("stopno to string", no);
+						Log.d("stop number & stop name", no + ", " + name);
 						
-						
-						if (busStopNameLC.equals(name) || busStopNameLC.equals(no)) {
+						if (name.contains(busStopNameLC) || no.contains(busStopNameLC)) {
 							Log.d("translert", "found the stop");
 							Double lat = currentObject.getDouble("lat");
 							Double lng = currentObject.getDouble("lng");
@@ -183,7 +183,6 @@ public class F {
 	    	
 	    }
 	    
-		
 	    public static BusRoute getRoute (SGGPosition origin, SGGPosition destination) {
 	    	
 	    	
@@ -192,6 +191,8 @@ public class F {
 	    			+ String.format ("&sl=%.4f,%.4f", origin.easting, origin.northing)
 	    			+ String.format ("&el=%.4f,%.4f", destination.easting, destination.northing)
 	    			+ C.routingEnd;
+	    	
+	    	Log.d("translert", link);
 			
 	    	try {
 	    		
