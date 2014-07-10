@@ -10,11 +10,25 @@
             res/values-vXX/styles.xml, while customizations related to
             backward-compatibility can go here.
         -->
+        <item name="actionBarStyle">@style/TransparentActionBarStyle</item>
     </style>
 
     <!-- Application theme. -->
     <style name="AppTheme" parent="AppBaseTheme">
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+        <item name="android:windowBackground">@android:color/white</item>
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
+    
+    <style name="TransparentActionBarStyle" parent="@style/Widget.Sherlock.ActionBar">
+        <item name="background">@android:color/transparent</item>
+        <item name="android:background">@android:color/transparent</item>
+    	<item name="displayOptions">showHome|useLogo</item>
+    </style>
+    
+    <style name="HeadingText" parent="@android:style/TextAppearance">
+        <item name="android:textColor">@color/emerald</item>
+        <item name="android:textSize">30sp</item>
     </style>
 
 </resources>

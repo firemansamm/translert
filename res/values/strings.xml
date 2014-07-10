@@ -27,16 +27,16 @@
     
     <string name="alarm_distance">Bus Alarm</string>
     <string-array name="distance_list">
-        <item>50m</item>
-        <item>100m</item>
-        <item>200m</item>        
+        <item>500m</item>
+        <item>700m</item>
+        <item>1000m</item>        
     </string-array>
     <string-array name="distance_list_value">
-        <item>50</item>
-        <item>100</item>
-        <item>200</item>        
+        <item>500</item>
+        <item>700</item>
+        <item>1000</item>        
     </string-array>
-    <string name="default_distance">100</string>
+    <string name="default_distance">500</string>
     <string name="distance_description">How far before destination to trigger alarm</string>
     
 </resources>

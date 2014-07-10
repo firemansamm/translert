@@ -692,12 +692,14 @@ containing a value of this type.
         public static final int abs__bright_foreground_disabled_holo_light=0x7f070005;
         public static final int abs__bright_foreground_holo_dark=0x7f070002;
         public static final int abs__bright_foreground_holo_light=0x7f070003;
-        public static final int abs__primary_text_disable_only_holo_dark=0x7f070008;
-        public static final int abs__primary_text_disable_only_holo_light=0x7f070009;
-        public static final int abs__primary_text_holo_dark=0x7f07000a;
-        public static final int abs__primary_text_holo_light=0x7f07000b;
+        public static final int abs__primary_text_disable_only_holo_dark=0x7f07000a;
+        public static final int abs__primary_text_disable_only_holo_light=0x7f07000b;
+        public static final int abs__primary_text_holo_dark=0x7f07000c;
+        public static final int abs__primary_text_holo_light=0x7f07000d;
+        public static final int dark_gray=0x7f070008;
         public static final int emerald=0x7f070006;
         public static final int gray=0x7f070007;
+        public static final int white=0x7f070009;
     }
     public static final class dimen {
         /**  Default height of an action bar. 
@@ -972,44 +974,47 @@ containing a value of this type.
         public static final int abs__textButton=0x7f050013;
         public static final int abs__title=0x7f05001b;
         public static final int abs__up=0x7f05000b;
-        public static final int action_settings=0x7f05004d;
-        public static final int activityLabel=0x7f050046;
-        public static final int busDestinationTextbox=0x7f050033;
-        public static final int busNoTextBox=0x7f050035;
-        public static final int bus_button=0x7f050034;
-        public static final int bus_button_linear_view=0x7f050039;
-        public static final int container=0x7f05003c;
-        public static final int dates=0x7f05004c;
-        public static final int destLabel=0x7f050041;
-        public static final int destinationTextBox=0x7f05003b;
-        public static final int detailsLabel=0x7f050042;
+        public static final int action_settings=0x7f050050;
+        public static final int activityLabel=0x7f050048;
+        public static final int approximately=0x7f050038;
+        public static final int busDestinationAuto=0x7f050034;
+        public static final int busGo=0x7f050035;
+        public static final int busNoTextBox=0x7f050037;
+        public static final int bus_button=0x7f050036;
+        public static final int bus_button_linear_view=0x7f05003d;
+        public static final int container=0x7f05003f;
+        public static final int dates=0x7f05004e;
+        public static final int destLabel=0x7f050043;
+        public static final int detailsLabel=0x7f050044;
         public static final int disableHome=0x7f050009;
-        public static final int distance_counter=0x7f050036;
+        public static final int distance_counter=0x7f050039;
         public static final int edit_query=0x7f050026;
-        public static final int getstarted=0x7f05003e;
+        public static final int getstarted=0x7f050040;
         public static final int homeAsUp=0x7f050006;
-        public static final int infoLabel=0x7f050044;
-        public static final int lineSpinner=0x7f050048;
-        public static final int linelabel=0x7f050047;
+        public static final int infoLabel=0x7f050046;
+        public static final int lineSpinner=0x7f05004a;
+        public static final int linelabel=0x7f050049;
         public static final int listMode=0x7f050002;
-        public static final int mrt_button=0x7f05003a;
-        public static final int name=0x7f05004b;
-        public static final int next=0x7f050037;
+        public static final int mrt_button=0x7f05003e;
+        public static final int myListItem=0x7f05004f;
+        public static final int name=0x7f05004d;
+        public static final int next=0x7f05003b;
         public static final int normal=0x7f050001;
-        public static final int recenttrips=0x7f05003f;
+        public static final int recenttrips=0x7f050041;
         public static final int return_to_start_screen=0x7f050032;
-        public static final int routeDescription=0x7f050043;
-        public static final int select_mode=0x7f050038;
+        public static final int routeDescription=0x7f050045;
+        public static final int select_destination=0x7f050033;
+        public static final int select_mode=0x7f05003c;
         public static final int showCustom=0x7f050008;
         public static final int showHome=0x7f050005;
         public static final int showTitle=0x7f050007;
-        public static final int show_route=0x7f050045;
-        public static final int sourceLabel=0x7f050040;
-        public static final int stationSpinner=0x7f05004a;
-        public static final int stationlabel=0x7f050049;
+        public static final int show_route=0x7f050047;
+        public static final int sourceLabel=0x7f050042;
+        public static final int stationSpinner=0x7f05004c;
+        public static final int stationlabel=0x7f05004b;
         public static final int tabMode=0x7f050003;
+        public static final int to_arrival=0x7f05003a;
         public static final int useLogo=0x7f050004;
-        public static final int welcome=0x7f05003d;
         public static final int wrap_content=0x7f050000;
     }
     public static final class integer {
@@ -1040,15 +1045,15 @@ containing a value of this type.
         public static final int activity_bus_alert=0x7f030015;
         public static final int activity_bus_enter_destination=0x7f030016;
         public static final int activity_bus_enter_number=0x7f030017;
-        public static final int activity_bus_processing=0x7f030018;
-        public static final int activity_bus_progress=0x7f030019;
-        public static final int activity_bus_train=0x7f03001a;
-        public static final int activity_main=0x7f03001b;
-        public static final int activity_overview=0x7f03001c;
-        public static final int activity_route_planning=0x7f03001d;
-        public static final int activity_selector=0x7f03001e;
-        public static final int activity_watch=0x7f03001f;
-        public static final int listrow=0x7f030020;
+        public static final int activity_bus_progress=0x7f030018;
+        public static final int activity_bus_train=0x7f030019;
+        public static final int activity_main=0x7f03001a;
+        public static final int activity_overview=0x7f03001b;
+        public static final int activity_route_planning=0x7f03001c;
+        public static final int activity_selector=0x7f03001d;
+        public static final int activity_watch=0x7f03001e;
+        public static final int listrow=0x7f03001f;
+        public static final int my_list_item=0x7f030020;
         public static final int sherlock_spinner_dropdown_item=0x7f030021;
         public static final int sherlock_spinner_item=0x7f030022;
     }
@@ -1117,27 +1122,20 @@ containing a value of this type.
         by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
     
 
-            Theme customizations available in newer API levels can go in
-            res/values-vXX/styles.xml, while customizations related to
-            backward-compatibility can go here.
-        
-
         Base application theme for API 11+. This theme completely replaces
         AppBaseTheme from res/values/styles.xml on API 11+ devices.
     
- API 11 theme customizations can go here. 
 
         Base application theme for API 14+. This theme completely replaces
         AppBaseTheme from BOTH res/values/styles.xml and
         res/values-v11/styles.xml on API 14+ devices.
     
- API 14 theme customizations can go here. 
          */
         public static final int AppBaseTheme=0x7f0b0059;
         /**  Application theme. 
- All customizations that are NOT specific to a particular API-level can go here. 
          */
         public static final int AppTheme=0x7f0b005a;
+        public static final int HeadingText=0x7f0b005c;
         public static final int Sherlock___TextAppearance_Small=0x7f0b0046;
         public static final int Sherlock___Theme=0x7f0b0051;
         public static final int Sherlock___Theme_DarkActionBar=0x7f0b0053;
@@ -1180,6 +1178,7 @@ containing a value of this type.
         public static final int Theme_Sherlock_Light_DarkActionBar=0x7f0b0056;
         public static final int Theme_Sherlock_Light_NoActionBar=0x7f0b0058;
         public static final int Theme_Sherlock_NoActionBar=0x7f0b0057;
+        public static final int TransparentActionBarStyle=0x7f0b005b;
         public static final int Widget=0x7f0b0000;
         public static final int Widget_Sherlock_ActionBar=0x7f0b0002;
         public static final int Widget_Sherlock_ActionBar_Solid=0x7f0b0003;

@@ -12,36 +12,41 @@
     android:layout_gravity="center"
     android:gravity = "center_horizontal">
     
-    <TextView 
+    <TextView
+        android:id="@+id/approximately"
         android:text="approximately"
-        android:textSize="15sp"
+        android:textSize="32sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/gray"/>
     
     <TextView 
         android:id="@+id/distance_counter"
-        android:text="88.8 km"
         android:textSize="70sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/emerald"/>
     
-    <TextView 
+    <TextView
+        android:id="@+id/to_arrival" 
         android:text="to arrival"
-        android:textSize="30sp"
+        android:textSize="32sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/gray"
-        android:gravity ="center"/>
+        android:gravity ="center"
+        android:paddingBottom="32dp"/>
     
-    <Button 
+    <Button
+        
         android:id="@+id/next"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Stop"
-        android:textSize="14sp"
-        android:onClick="stopKeeper" />
+        android:textColor="@android:color/white"
+        android:textSize="25sp"
+        android:onClick="stopKeeper"
+        android:background="@color/gray"/>
     
 
 </LinearLayout>

@@ -5,61 +5,38 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.translert.R;
 import com.translert.bus.BusEnterNumberActivity;
+import com.translert.bus.utils.C;
 import com.translert.bus.utils.GPSTracker;
 import com.translert.train.MainActivity;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.TextView;
+
 
 public class BusTrainSelectorActivity extends SherlockActivity {
 	
-//	public Context context = this;
 	boolean listenerFlag;
-	EditText destinationTextbox;
 	static public GPSTracker gps;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		C.headingFont = Typeface.createFromAsset(getAssets(), "fonts/Rex-Light.otf");
+		C.bodyFont = Typeface.createFromAsset(getAssets(), "fonts/Raleway-Light.ttf");
+		C.headingFont = Typeface.createFromAsset(getAssets(), "fonts/CODE-Light.otf");
+		
 		setContentView(R.layout.activity_bus_train);
+		TextView title = (TextView)findViewById(R.id.select_mode);
+		title.setTypeface(C.headingFont);
 		
 		gps = new GPSTracker(this);
 		if (!gps.canGetGPS()) {
 			gps.showSettingsAlert();
 		}
-		
-		destinationTextbox = (EditText) findViewById(R.id.destinationTextBox);
-		
-		TextView.OnEditorActionListener keyListener = new TextView.OnEditorActionListener(){
-			
-			@Override
-	        public boolean onEditorAction(TextView view, int actionId, KeyEvent event) {
-				
-				if (listenerFlag) {	
-					
-					
-					listenerFlag = false;
-					String destination = view.getText().toString();
-					Log.d("translert", "received destination " + destination);
-	                Intent i = new Intent (BusTrainSelectorActivity.this, RoutePlanningActivity.class);
-	                i.putExtra("destination", destination);
-	                startActivity(i);
-	                
-				}
-				
-				return true;
-				
-	        }
-			
-	    };
-	    
-	    destinationTextbox.setOnEditorActionListener(keyListener);
-		
+		 
 	}
 	
 	public void startMRTMode (View v) {
@@ -94,5 +71,18 @@ public class BusTrainSelectorActivity extends SherlockActivity {
 		listenerFlag = true;
 	}
 	
+	@Override
+	protected void onNewIntent(Intent intent) {
+		if (intent.hasExtra("restart")) {
+			try {
+				com.translert.bus.BusProgressActivity.ringtone.stop();
+				com.translert.bus.BusProgressActivity.vibrator.cancel();
+			} catch (Exception e) {}
+			try {
+				com.translert.train.WatchActivity.ringtone.stop();
+				com.translert.train.WatchActivity.vibrator.cancel();
+			} catch (Exception e) {}
+		}
+	}
 
 }

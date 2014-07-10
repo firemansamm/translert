@@ -1,5 +1,5 @@
 package com.translert;
-
+/*
 import com.translert.bus.F;
 import com.translert.bus.utils.BusRoute;
 import com.translert.bus.utils.SGGPosition;
@@ -57,3 +57,4 @@ public class RoutePlanningActivity extends Activity {
 	}
 
 }
+*/

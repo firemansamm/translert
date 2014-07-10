@@ -33,60 +33,79 @@ public class F {
 	
 		
 		public static SGGPosition getGPS() {
-			
 			GPSTracker gps = BusTrainSelectorActivity.gps;
-			
 			SGGPosition currentPosition = null; 
-			
 			if (gps.canGetLocation()) {
 				Location current = gps.getLocation();
 	        	currentPosition = 
 	        			new SGGPosition (current.getLatitude(), current.getLongitude(), "Current position", C.CONVERT_LATLNG_TO_SVY21);
 	        } else {
-	        	
-	        	//gps.showSettingsAlert();
+	        	gps.showSettingsAlert();
 	        	Log.d("translert", "cannot get GPS");
-	        	
 	        }
-			
 			return currentPosition;
+		}
+		
+		public static ArrayList<String> getBusStopNames (Context context, String busNumber) {
+			ArrayList<String> busStopNames = new ArrayList<String>();
 			
+			try {
+				String filename = "bus-services/" + busNumber + ".json";
+				String jsonRoute = loadJSONFromAsset (context, filename);
+				ArrayList<String> stopsList = new ArrayList<String>();
+				for (int i = 1; i <=2 ; i++) {
+					JSONArray  stops  = new JSONObject (jsonRoute).getJSONObject(String.valueOf(i)).getJSONArray("stops");
+					for (int j = 0; j < stops.length(); j++) {
+						stopsList.add( stops.getString(j) );
+					}
+				}	
+				
+				filename = "bus-stops.json";
+				String jsonStops = loadJSONFromAsset (context, filename);
+				JSONArray allStops = new JSONArray (jsonStops);
+				
+				for (int i = 0; i < allStops.length(); i++) {
+					JSONObject currentObject = allStops.getJSONObject(i);
+					String no = currentObject.getString("no");
+					if ( stopsList.contains(no) ) {
+						String name = currentObject.getString("name");
+						busStopNames.add(name);
+					}
+				}
+			} catch (JSONException e) {
+				return null;
+			}
+			return busStopNames;
 		}
 		
 		public static SGGPosition getBusStopPosition (Context context, String busDestination, String busNumber) {
-			
-			
 			SGGPosition result = null;
 			final String busStopNameLC = busDestination.toLowerCase();
 			
-			String filename = "bus-stops.json";
-			String jsonStops = loadJSONFromAsset (context, filename);
-			
-			filename = "bus-services/" + busNumber + ".json";
-			Log.d("translert", "getting list of bus stops from " + filename);
-			String jsonRoute = loadJSONFromAsset (context, filename);
-			Log.d("translert", jsonRoute);
-			
-			
 			try {
-				JSONArray  stops  = new JSONObject (jsonRoute).getJSONObject("1").getJSONArray("stops");
-				ArrayList<Integer> stopsList = new ArrayList<Integer>();
-				
-				for (int i = 0; i < stops.length(); i++) {
-					stopsList.add( stops.getInt(i) );
+				String filename = "bus-services/" + busNumber + ".json";
+				String jsonRoute = loadJSONFromAsset (context, filename);
+				ArrayList<String> stopsList = new ArrayList<String>();
+				for (int i = 1; i <= 2; i++) {
+					JSONArray  stops  = new JSONObject (jsonRoute).getJSONObject(String.valueOf(i)).getJSONArray("stops");
+					for (int j = 0; j < stops.length(); j++) {
+						stopsList.add( stops.getString(j) );
+					}
 				}
+				Log.d("translert", stopsList.toString());
 				
+				filename = "bus-stops.json";
+				String jsonStops = loadJSONFromAsset (context, filename);
 				JSONArray allStops = new JSONArray (jsonStops);
 				for (int i = 0; i < allStops.length(); i++) {
 					
 					JSONObject currentObject = allStops.getJSONObject(i);
-					int currentObjectStopNo = currentObject.getInt("no");
+					String no = currentObject.getString("no");
 					
-					if ( stopsList.contains(currentObjectStopNo) ) {
+					if ( stopsList.contains(no) ) {
 						
 						String name = currentObject.getString("name").toLowerCase();
-						String no = String.format("%05d", currentObjectStopNo);
-						Log.d("stop number & stop name", no + ", " + name);
+//						Log.d("stop number & stop name", no + ", " + name);
 						
 						if (name.contains(busStopNameLC) || no.contains(busStopNameLC)) {
 							Log.d("translert", "found the stop");
@@ -98,22 +117,30 @@ public class F {
 						}
 					}
 				}
-					
-				
-				
 			} catch (JSONException e) {
 				return null;
 			}
-			
 			return result;
-			
 		}
-		
+
+	    private static String loadJSONFromAsset(Context context, String filename) {
+	        String json = null;
+	        try {
+	            InputStream is = context.getAssets().open(filename);
+	            int size = is.available();
+	            byte[] buffer = new byte[size];
+	            is.read(buffer);
+	            is.close();
+	            json = new String(buffer, "UTF-8");
+	        } catch (IOException ex) {
+	            ex.printStackTrace();
+	            return null;
+	        }
+	        return json;
+	    }
+		/*		
 		public static SGGPosition getSdBusStopPosition (String name) {
-			
 			SGGPosition position = null;
-			
-			
 			try {
 				String link = C.sdSearchStart + URLEncoder.encode(name, "UTF-8");
 				Log.d("translert", link);
@@ -121,7 +148,6 @@ public class F {
 				String results = uriToString(linkUri);
 				Log.d("translert", results);
 				position = sdBusStopGeocode(results);
-				
 			} catch (UnsupportedEncodingException e) {
 			} catch (URISyntaxException e) {
 			} catch (ClientProtocolException e) {
@@ -235,21 +261,7 @@ public class F {
 	    
 	    //JSON parsing methods
 	    
-	    private static String loadJSONFromAsset(Context context, String filename) {
-	        String json = null;
-	        try {
-	            InputStream is = context.getAssets().open(filename);
-	            int size = is.available();
-	            byte[] buffer = new byte[size];
-	            is.read(buffer);
-	            is.close();
-	            json = new String(buffer, "UTF-8");
-	        } catch (IOException ex) {
-	            ex.printStackTrace();
-	            return null;
-	        }
-	        return json;
-	    }
+
 	    
 	    private static SGGPosition geocode(String JSONstring) throws JSONException {
 	    	
@@ -336,6 +348,6 @@ public class F {
 			return returnResult;
 		
 		}
-	
+	*/
 
 }

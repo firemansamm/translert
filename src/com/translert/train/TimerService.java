@@ -38,7 +38,7 @@ public class TimerService extends Service {
 		//TimerService.uiThreadHandler = new Handler(Looper.getMainLooper());
 		TimerService.uiThreadHandler = WatchActivity.uiThreadHandler;
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-		int pref = Integer.parseInt(  preferences.getString("alarm_timing", "0")  );
+		int pref = Integer.parseInt(  preferences.getString("alarm_timing", "2")  );
 		offset = TimeUnit.MINUTES.toMillis(pref);
 		Log.d("translert", Long.toString(offset));
 	}
@@ -50,7 +50,7 @@ public class TimerService extends Service {
 			
 			activeFlag = true;
 			Bundle b = intent.getExtras();
-			totalTime = (long) b.getInt("minutes") * 60 * 1000;
+			totalTime = TimeUnit.MINUTES.toMillis( b.getInt("minutes") );
 			Log.d("translert", "received request for timer of " + String.valueOf(totalTime) + " milliseconds!");
 			currentLeg = b.getInt("legnum");
 			legTotal = b.getInt("totalleg");
@@ -94,7 +94,6 @@ public class TimerService extends Service {
 			activeFlag = false;
 			uiThreadHandler.sendEmptyMessage(C.RETURN_TIMER_OVER);
 			TimerService.this.stopSelf();
-			
 		}
 	}
 	

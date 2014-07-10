@@ -1,5 +1,7 @@
 package com.translert.bus.utils;
 
+import android.graphics.Typeface;
+
 public final class C {
 	public static final int CONVERT_LATLNG_TO_SVY21 = 21;
 	public static final int RETURN_TIMER_RUNNING = 11;
@@ -9,10 +11,10 @@ public final class C {
 	public static final int GET_DISTANCE = 103;
 	public static final int RETURN_DISTANCE = 102;
 	public static final int RETURN_DISTANCE_REACHED = 404;
-	public static final long DELAY_LONG_SIMULATOR = 5 * 1000;
+	public static final long DELAY_LONG_SIMULATOR = 2 * 1000;
 	public static final long DELAY_SHORT_SIMULATOR = 333;
-	public static final long DELAY_LONG = 5 * 60 * 1000;
-	public static final long DELAY_SHORT = 1 * 60 * 1000;
+	public static final long DELAY_LONG = 2 * 60 * 1000;
+	public static final long DELAY_SHORT = 5 * 1000;
 	
 	
 	public static final String token = "qo/s2TnSUmfLz+32CvLC4RMVkzEFYjxqyti1KhByvEacEdMWBpCuSSQ+IFRT84QjGPBCuz/cBom8PfSm3GjEsGc8PkdEEOEr";
@@ -21,5 +23,14 @@ public final class C {
 	public static final String searchStart = "http://www.onemap.sg/API/services.svc/basicSearch?token=";
 	public static final String sdSearchStart = "http://www.streetdirectory.com/api/?mode=search&act=all&output=json&start=0&limit=20&country=sg&profile=template_1&q=";
 	public static final String BUS_STOP = " (BUS STOP)";
+	
+	
+	
+	public static Typeface headingFont;
+	public static Typeface bodyFont;
+	public static Typeface numFont;
+	
+	public static final long[] vibratingPattern = {0, 500, 500};
+	
 
 }

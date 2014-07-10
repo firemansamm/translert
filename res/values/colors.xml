@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="emerald">#90B8B0</color>
-    <color name="gray">#D8D8D8</color>
+    <color name="emerald">#03A38B</color>
+    <color name="gray">#D2D2D2</color>
+    <color name="dark_gray">#7E7E7E</color>
+    <color name="white">#696969</color>
     
 </resources>
