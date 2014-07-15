@@ -4,9 +4,9 @@ import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.translert.R;
-import com.translert.bus.BusEnterNumberActivity;
+import com.translert.bus.EnterNumberActivity;
 import com.translert.bus.utils.C;
-import com.translert.bus.utils.GPSTracker;
+//import com.translert.bus.utils.GPSTracker;
 import com.translert.train.MainActivity;
 
 import android.content.Intent;
@@ -17,10 +17,6 @@ import android.widget.TextView;
 
 
 public class BusTrainSelectorActivity extends SherlockActivity {
-	
-	boolean listenerFlag;
-	static public GPSTracker gps;
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -31,12 +27,6 @@ public class BusTrainSelectorActivity extends SherlockActivity {
 		setContentView(R.layout.activity_bus_train);
 		TextView title = (TextView)findViewById(R.id.select_mode);
 		title.setTypeface(C.headingFont);
-		
-		gps = new GPSTracker(this);
-		if (!gps.canGetGPS()) {
-			gps.showSettingsAlert();
-		}
-		 
 	}
 	
 	public void startMRTMode (View v) {
@@ -47,7 +37,7 @@ public class BusTrainSelectorActivity extends SherlockActivity {
 	
 	public void startBusMode (View v) {
 		
-		Intent startBusIntent = new Intent (this, BusEnterNumberActivity.class);
+		Intent startBusIntent = new Intent (this, EnterNumberActivity.class);
 		startActivity (startBusIntent);
 	}
 	
@@ -61,28 +51,6 @@ public class BusTrainSelectorActivity extends SherlockActivity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		startActivity(new Intent(this, ShowPreferenceActivity.class));
-		
 		return true;
 	}
-	
-	@Override
-	protected void onResume() {
-		super.onResume();
-		listenerFlag = true;
-	}
-	
-	@Override
-	protected void onNewIntent(Intent intent) {
-		if (intent.hasExtra("restart")) {
-			try {
-				com.translert.bus.BusProgressActivity.ringtone.stop();
-				com.translert.bus.BusProgressActivity.vibrator.cancel();
-			} catch (Exception e) {}
-			try {
-				com.translert.train.WatchActivity.ringtone.stop();
-				com.translert.train.WatchActivity.vibrator.cancel();
-			} catch (Exception e) {}
-		}
-	}
-
 }

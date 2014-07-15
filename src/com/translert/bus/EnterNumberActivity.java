@@ -10,7 +10,7 @@ import android.view.KeyEvent;
 import android.widget.EditText;
 import android.widget.TextView;
 
-public class BusEnterNumberActivity extends Activity {
+public class EnterNumberActivity extends Activity {
 	
 	EditText busNoTextBox;
 	boolean listenerFlag;
@@ -37,7 +37,7 @@ public class BusEnterNumberActivity extends Activity {
 					listenerFlag = false;
 					String busNumber = view.getText().toString();
 					Log.d("translert", "received bus number " + busNumber);
-	                Intent i = new Intent (BusEnterNumberActivity.this, BusEnterDestinationActivity.class);
+	                Intent i = new Intent (EnterNumberActivity.this, EnterBusStopNameActivity.class);
 	                i.putExtra("busNumber", busNumber);
 	                startActivity(i);
 	                

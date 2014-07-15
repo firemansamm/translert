@@ -3,8 +3,11 @@ package com.translert.bus;
 import java.util.ArrayList;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -17,8 +20,9 @@ import android.widget.Toast;
 
 import com.translert.R;
 import com.translert.bus.utils.C;
+import com.translert.bus.utils.F;
 
-public class BusEnterDestinationActivity extends Activity{
+public class EnterBusStopNameActivity extends Activity{
 	
 	String busNumber;
 	String busDestination;
@@ -61,8 +65,6 @@ public class BusEnterDestinationActivity extends Activity{
 	    		}
 	    	}
 	    });
-		
-		
 	}
 	
 	@Override
@@ -77,6 +79,32 @@ public class BusEnterDestinationActivity extends Activity{
 			String busDestination = intent.getStringExtra("nullDestination");
 			String busNumber = intent.getStringExtra("busNumber");
 			Toast.makeText(this, "Cannot find " + busDestination + " on bus route " + busNumber, Toast.LENGTH_LONG).show();
+		} else if (intent.hasExtra("nullLocationServices")) {
+			AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
+		   	 
+	        // Setting Dialog Title
+	        alertDialog.setTitle("GPS settings");
+	 
+	        // Setting Dialog Message
+	        alertDialog.setMessage("Please go to Settings and enable location services.");
+	 
+	        // On pressing Settings button
+	        alertDialog.setPositiveButton("Settings", new DialogInterface.OnClickListener() {
+	            public void onClick(DialogInterface dialog,int which) {
+	            	Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+	            	EnterBusStopNameActivity.this.startActivity(intent);
+	            }
+	        });
+	 
+	        // on pressing cancel button
+	        alertDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+	            public void onClick(DialogInterface dialog, int which) {
+	            dialog.cancel();
+	            }
+	        });
+	 
+	        // Showing Alert Message
+	        alertDialog.show();
 		}
 		
 	}
@@ -87,7 +115,7 @@ public class BusEnterDestinationActivity extends Activity{
 			busDestination = busDestinationAuto.getText().toString();
 			Log.d("translert", "received bus destination " + busDestination);
 			
-			outputIntent = new Intent (BusEnterDestinationActivity.this, BusDistanceKeeperService.class);
+			outputIntent = new Intent (EnterBusStopNameActivity.this, DistanceUpdateService.class);
 			outputIntent.putExtra("busNumber", busNumber);
             outputIntent.putExtra("busDestination", busDestination);
             startService (outputIntent);
