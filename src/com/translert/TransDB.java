@@ -31,7 +31,9 @@ public class TransDB {
 		this.db = helper.getWritableDatabase();
 		
 	}
-
+	/*
+	 * @
+	 */
 	public int addRow(String c1, String c2) 	{ 
 		//holder used by android's SQLite methods
 	    ContentValues values = new ContentValues();
@@ -47,7 +49,11 @@ public class TransDB {
 		}
 		return -1;
 	}
-		
+	
+	/* 
+	 * @param1: Row ID is assigned permanently for this application
+	 * @para2&3: Fields that ignore update if null and do read modify write
+	 */
 	public void updateRow(long rowID, String rowStringOne, String rowStringTwo){
 		//holder used by android's SQLite methods
 		ContentValues values = new ContentValues();
