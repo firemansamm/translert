@@ -9,12 +9,15 @@ public final class C {
 	public static final int RETURN_TIMER_START = 33;
 	public static final int GET_DISTANCE_INIT = 101;
 	public static final int GET_DISTANCE = 103;
+	
 	public static final int DISTANCE_MESSAGE = 102;
-	public static final int ALARM_MESSAGE = 404;
-	public static final long DELAY_LONG_SIMULATOR = 2 * 1000;
-	public static final long DELAY_SHORT_SIMULATOR = 333;
+	public static final int ALARM_MESSAGE = 202;
+	public static final int BUS_STOP_NOT_FOUND_MESSAGE = 404;
+	public static final int LOCATION_PROVIDER_NOT_FOUND_MESSAGE = 404404;
+	
 	public static final long DELAY_NORMAL = 3 * 60 * 1000/2;
 	public static final long DELAY_OVERDRIVE = 2 * 1000;
+	
 	public static final float MIN_DISTANCE = 0;
 	public static final double OVERDRIVE_THRESHOLD = 2000;
 	public static final double BUS_SPEED = 50/3;

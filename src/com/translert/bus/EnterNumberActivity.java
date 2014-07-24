@@ -6,57 +6,22 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.KeyEvent;
+import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
 
 public class EnterNumberActivity extends Activity {
-	
-	EditText busNoTextBox;
-	boolean listenerFlag;
-//	public static GPSTracker gps;
-	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_bus_enter_number);
-		
-		
-		
-		busNoTextBox = (EditText) findViewById(R.id.busNoTextBox);
-		
-		
-		TextView.OnEditorActionListener keyListener = new TextView.OnEditorActionListener(){
-			
-			@Override
-	        public boolean onEditorAction(TextView view, int actionId, KeyEvent event) {
-				
-				if (listenerFlag) {	
-					
-					
-					listenerFlag = false;
-					String busNumber = view.getText().toString();
-					Log.d("translert", "received bus number " + busNumber);
-	                Intent i = new Intent (EnterNumberActivity.this, EnterBusStopNameActivity.class);
-	                i.putExtra("busNumber", busNumber);
-	                startActivity(i);
-	                
-				}
-				
-				return true;
-				
-	        }
-			
-	    };
-	    
-	    busNoTextBox.setOnEditorActionListener(keyListener);
-		
 	}
 	
-	@Override
-	protected void onResume() {
-		super.onResume();
-		listenerFlag = true;
+	public void submitBusNumber (View v) {
+		EditText tv = (EditText) findViewById(R.id.busNoTextBox);
+		String busNumber = tv.getText().toString();
+		Log.d("translert", "Received bus number " + busNumber);
+        Intent i = new Intent (EnterNumberActivity.this, EnterBusStopNameActivity.class);
+        i.putExtra("busNumber", busNumber);
+        startActivity(i);
 	}
-	
 }

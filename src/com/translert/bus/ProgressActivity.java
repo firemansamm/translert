@@ -43,19 +43,11 @@ public class ProgressActivity extends Activity {
 	
 	public static Handler uiHandler;
 	
+	private static Intent serviceIntent;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
-		if (getIntent().hasExtra("nullDestination") || getIntent().hasExtra("nullLocationServices")) {
-			Intent reEnterDestination = new Intent (this, EnterBusStopNameActivity.class);
-			reEnterDestination.putExtras( getIntent().getExtras() );
-			reEnterDestination.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-			reEnterDestination.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-			startActivity(reEnterDestination);
-			finish();
-		}
-		
 		setContentView(R.layout.activity_bus_progress);
 		
 		uiHandler = new Handler(new UiUpdateCallback());
@@ -78,6 +70,10 @@ public class ProgressActivity extends Activity {
 		ringtone = RingtoneManager.getRingtone(this, RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM) );
 		ringtone.setStreamType(AudioManager.STREAM_ALARM);
 		vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+		
+		serviceIntent = new Intent(this, DistanceUpdateService.class);
+		serviceIntent.putExtras(getIntent());
+		startService(serviceIntent);
 	}
 	
 	@Override
@@ -102,7 +98,7 @@ public class ProgressActivity extends Activity {
 		.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				stopService(EnterBusStopNameActivity.outputIntent);
+				stopService(serviceIntent);
 				ProgressActivity.super.onBackPressed();
 			}
 		})
@@ -130,31 +126,15 @@ public class ProgressActivity extends Activity {
 	@Override
 	protected void onDestroy () {
 		super.onDestroy();
-		stopService(EnterBusStopNameActivity.outputIntent);
+		stopService(serviceIntent);
 		nm.cancel(0);
 		ringtone.stop();
 		vibrator.cancel();
 	}
 	
-	public void stopKeeper (View v) {
+	public void stop (View v) {
 		finish();
 	}
-	
-	private void showDistance(String distance) {
-		distanceCounter.setText(distance);
-		topTextView.setText("Approximately");
-		bottomTextView.setText("to destination");
-		nf = (new NotificationCompat.Builder(ProgressActivity.this))
-				.setOngoing(true)
-				.setContentTitle("Approximately " + distance  +" to destination.")
-				.setContentText("Currently en route to " + DistanceUpdateService.destination.title + ".")
-				.setSmallIcon(R.drawable.ic_launcher)
-				.setContentIntent(pi)
-				.getNotification();
-		nm.notify(0, nf);
-	}
-	
-	
 	
 	class UiUpdateCallback implements Handler.Callback {
 		@Override
@@ -162,12 +142,25 @@ public class ProgressActivity extends Activity {
 			switch (msg.what) {
 			
 			case C.DISTANCE_MESSAGE:
-				showDistance((String) msg.obj);
+				String distance = (String) msg.obj;
+				distanceCounter.setText(distance);
+				topTextView.setText("Approximately");
+				bottomTextView.setText("to destination");
+				nf = (new NotificationCompat.Builder(ProgressActivity.this))
+						.setOngoing(true)
+						.setContentTitle("Approximately " + distance  +" to destination.")
+						.setContentText("Currently en route to " + DistanceUpdateService.destination.title + ".")
+						.setSmallIcon(R.drawable.ic_launcher)
+						.setContentIntent(pi)
+						.getNotification();
+				nm.notify(0, nf);
 				return true;
 			
 			case C.ALARM_MESSAGE:
 				ringtone.play();
 				vibrator.vibrate(C.vibratingPattern, 0);
+				
+				stopService(serviceIntent);
 				
 				if (isVisible) {
 					ProgressActivity.nm.cancel(0);
@@ -205,6 +198,17 @@ public class ProgressActivity extends Activity {
 					nm.notify(0, nf);
 				}
 				return true;
+				
+			case C.BUS_STOP_NOT_FOUND_MESSAGE:
+				String busStopName = getIntent().getStringExtra("busDestination");
+				String busNumber = getIntent().getStringExtra("busNumber");
+				Toast.makeText(
+						ProgressActivity.this, "Cannot find " + busStopName + " on bus route " + busNumber, Toast.LENGTH_LONG).show();
+				finish();
+				return true;
+			
+			case C.LOCATION_PROVIDER_NOT_FOUND_MESSAGE:
+				
 			}
 			
 			return false;

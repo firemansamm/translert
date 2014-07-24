@@ -31,24 +31,28 @@ public class DistanceUpdateService extends Service implements LocationListener {
 	
 	private static boolean isRunning;
 	private static boolean isOverdriveMode;
+	
+	private static Handler uiHandler;
 
 	@Override
 	public void onCreate() {
 		locationManager = (LocationManager) this.getSystemService(LOCATION_SERVICE);
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
 		alarmThreshold = Integer.parseInt(  preferences.getString("alarm_distance", "500")  );
-		overdriveModeThreshold = alarmThreshold + C.BUS_SPEED * C.DELAY_NORMAL;
+		overdriveModeThreshold = alarmThreshold + C.BUS_SPEED * C.DELAY_NORMAL/1000;
+		Log.d("overdriveModeThreshold", String.valueOf(overdriveModeThreshold));
 		isOverdriveMode = false;
 		isRunning = false;
+		uiHandler = ProgressActivity.uiHandler;
 	}
 	
 	@Override 
 	public int onStartCommand(Intent intent, int flags, int startId){
-		Log.d("translert", "Keeper service started");
 		if (isRunning) {
-			this.stopSelf();
 			return START_NOT_STICKY;
 		}
+		Log.d("translert", "Keeper service started");
+		
 		// getting GPS status
 		boolean isGPSEnabled = locationManager
 				.isProviderEnabled(LocationManager.GPS_PROVIDER);
@@ -62,34 +66,18 @@ public class DistanceUpdateService extends Service implements LocationListener {
 			criteria.setAccuracy(Criteria.ACCURACY_COARSE);
 			locationProvider = locationManager.getBestProvider(criteria, true);
 		} else {
-			Log.d("translert", "Cannot get location services");
-			Intent outputIntent = new Intent (this, ProgressActivity.class);
-			outputIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-			outputIntent.putExtra("nullLocationService", true);
-			startActivity(outputIntent);
-			this.stopSelf();
+			uiHandler.sendEmptyMessage(C.LOCATION_PROVIDER_NOT_FOUND_MESSAGE);
 			return START_NOT_STICKY;
 		}
 		
 		String busStopName = intent.getStringExtra("busDestination");
 		String busNumber = intent.getStringExtra("busNumber");
 		Log.d("translert", "Service received request for destination " + busStopName + " on route " + busNumber);
-		destination = F.getBusStopPosition (DistanceUpdateService.this, busStopName, busNumber);
+		destination = F.getSingleBusStop (this, busStopName, busNumber);
 		if (destination == null) {
-			Log.d("translert", "Cannot get destination position");
-			Intent outputIntent = new Intent (DistanceUpdateService.this, ProgressActivity.class);
-			outputIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-			outputIntent.putExtra("nullDestination", busStopName);
-			outputIntent.putExtra("busNumber", busNumber);
-			startActivity(outputIntent);
-			this.stopSelf();
+			uiHandler.sendEmptyMessage(C.BUS_STOP_NOT_FOUND_MESSAGE);
 			return START_NOT_STICKY;
 		}
-		
-		Intent outputIntent = new Intent (DistanceUpdateService.this, ProgressActivity.class);
-		outputIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-		startActivity(outputIntent);
-		try {Thread.sleep(1000);} catch (InterruptedException e) {}
 		
 		Location currentLocation = null;
 		Iterator<String> iterator = locationManager.getProviders(true).iterator();
@@ -103,17 +91,20 @@ public class DistanceUpdateService extends Service implements LocationListener {
 		}
 		if (currentLocation != null) {
 			float distance = destination.getDistance(currentLocation);
-			sendDistance(distance);
+			uiHandlerSendDistance(distance);
 			if (distance < alarmThreshold) {
-				sendAlarm();
+				uiHandler.sendEmptyMessage(C.ALARM_MESSAGE);
 			} else if (distance > overdriveModeThreshold) {
+				Log.d("translert", "normalMode");
 				locationManager.requestLocationUpdates(locationProvider, C.DELAY_NORMAL, C.MIN_DISTANCE, this);
 			} else {
+				Log.d("translert", "overdriveMode");
 				isOverdriveMode = true;
 				locationManager.requestLocationUpdates(locationProvider, C.DELAY_OVERDRIVE, C.MIN_DISTANCE, this);
 			}
 		} else {
 			locationManager.requestLocationUpdates(locationProvider, C.DELAY_NORMAL, C.MIN_DISTANCE, this);
+			Log.d("translert", "normalModeNoCurrent");
 		}
 		
 		isRunning = true;
@@ -130,23 +121,18 @@ public class DistanceUpdateService extends Service implements LocationListener {
 	@Override
 	public void onLocationChanged(Location location) {
 		float distance = destination.getDistance(location);
-		sendDistance(distance);
+		uiHandlerSendDistance(distance);
 		if (distance < alarmThreshold) {
-			sendAlarm();
+			uiHandler.sendEmptyMessage(C.ALARM_MESSAGE);
 		} else if (!isOverdriveMode && distance < overdriveModeThreshold) {
+			Log.d("translert", "overdriveModeSwitch");
 			isOverdriveMode = true;
 			locationManager.removeUpdates(this);
 			locationManager.requestLocationUpdates(locationProvider, C.DELAY_OVERDRIVE, C.MIN_DISTANCE, this);
 		}
 	}
 	
-	private void sendAlarm() {
-		Handler uiHandler = ProgressActivity.uiHandler;
-		uiHandler.sendEmptyMessage(C.ALARM_MESSAGE);
-		stopSelf();
-	}
-	
-	private void sendDistance(float distance) {
+	private void uiHandlerSendDistance(float distance) {
 		String formattedDistance;
 		if (distance > overdriveModeThreshold) {
 			formattedDistance = String.format("%.1f km", distance/1000 );

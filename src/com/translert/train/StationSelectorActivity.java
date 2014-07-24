@@ -75,15 +75,21 @@ public class StationSelectorActivity extends SherlockActivity {
 		Spinner selector = (Spinner) findViewById(R.id.stationSpinner);
 		if(isFrom){
 			Intent in = new Intent(this, StationSelectorActivity.class);
+			in.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+			in.addFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS); //to let system direct to 'Train Main activity'
 			in.putExtra("isFrom", false);
 			in.putExtra("fromName", selector.getSelectedItem().toString());
-			startActivity(in);
+			startActivity(in); //destination window/activity
 		}else{
 			Station endStation = Station.reverseLookup.get(selector.getSelectedItem().toString());
 			PathFinder.State answerState = MainActivity.pf.routeMe(fromStation, endStation, 0);
 			PathFinder.answer = answerState;
 			Intent in = new Intent(this, TripOverviewActivity.class);
+			in.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+			in.addFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS); //to let system direct to 'Train Main activity'
 			startActivity(in);
+			//Intent in = new Intent(this, TransService.class);			
+			//startService(in);
 		}
 	}
 	

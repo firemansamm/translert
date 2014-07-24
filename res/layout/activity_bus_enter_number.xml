@@ -35,19 +35,44 @@
         android:layout_height="0dp"
         android:layout_weight="3" />
     
-    <EditText
-        android:hint="ENTER BUS NO."
-		android:id="@+id/busNoTextBox"
-		android:layout_width="match_parent"
-		android:layout_height="0dp"
-		android:background = "@drawable/background_text_box"
-		android:paddingTop="5dp"
-		android:paddingBottom="5dp"
-		android:paddingLeft = "5dp"
-		android:layout_weight = "3"
-		android:imeOptions="actionDone"
-		android:inputType = "number"
+    <RelativeLayout
+        android:layout_width="fill_parent"
+    	android:layout_height="0dp"
+    	android:orientation="horizontal"
+    	android:gravity="center_vertical"
+    	android:layout_weight = "3">
+    	
+	    <EditText
+	        android:hint="ENTER BUS NO."
+			android:id="@+id/busNoTextBox"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:background = "@drawable/background_text_box"
+			android:paddingTop="5dp"
+			android:paddingBottom="5dp"
+			android:paddingLeft = "5dp"
+			android:layout_toLeftOf="@+id/busGo"
+			android:layout_alignParentLeft="true"
+			android:inputType = "number"
 		/>
+        
+        <Button
+            android:onClick="submitBusNumber"
+            android:background="@android:color/white"
+            android:id="@+id/busGo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="Go"
+            android:textSize="18sp"
+            android:textColor="@color/emerald"
+            android:layout_alignParentRight="true"
+        />
+        
+        
+    </RelativeLayout>
+    
+    
     
     <View
         android:layout_width="fill_parent"

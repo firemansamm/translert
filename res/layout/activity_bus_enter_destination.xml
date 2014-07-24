@@ -32,20 +32,7 @@
         android:layout_width="fill_parent"
         android:layout_height="0dp"
         android:layout_weight="3" />
-    <!-- 
-    <EditText
-        android:hint="ENTER BUS STOP (NO./ NAME)"
-		android:id="@+id/busDestinationTextbox"
-		android:layout_width="match_parent"
-		android:layout_height="0dp"
-		android:background = "@drawable/background_text_box"
-		android:paddingTop="5dp"
-		android:paddingBottom="5dp"
-		android:paddingLeft = "5dp"
-		android:layout_weight = "3"
-		android:imeOptions="actionDone"
- 		/>
-     -->
+    
     <RelativeLayout
         android:layout_width="fill_parent"
     	android:layout_height="0dp"
