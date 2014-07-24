@@ -13,23 +13,34 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="com.android.alarm.permission.SET_ALARM"/>
-
+	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
-        
+
         <activity
             android:name="com.translert.BusTrainSelectorActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
+            android:launchMode="singleInstance"
    			android:configChanges="orientation|keyboardHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        
+        <service android:enabled="true" android:name="com.translert.train.TransServiceRef" />
+        
+        <receiver android:name="com.translert.train.TransReceiver">
+			<intent-filter>
+				<action android:name="REFRESHER"/>
+				
+			</intent-filter>
+		</receiver>
         
         <activity
             android:name="com.translert.RoutePlanningActivity"
@@ -47,13 +58,16 @@
             android:label="@string/app_name" />
         <activity
             android:name="com.translert.train.TripOverviewActivity"
+            android:launchMode="singleInstance"
             android:label="@string/app_name" />
         <activity
             android:name="com.translert.train.InterimActivity"
+            android:launchMode="singleInstance"
             android:label="@string/app_name" />
         <activity
             android:name="com.translert.train.WatchActivity"
-            android:label="@string/app_name" android:launchMode="singleInstance"
+            android:label="@string/app_name"
+            android:launchMode="singleInstance"
             android:screenOrientation="portrait"
    			android:configChanges="orientation|keyboardHidden"/>
         <service 
@@ -62,37 +76,25 @@
         
         
         <activity
-            android:name="com.translert.bus.BusEnterNumberActivity"
+            android:name="com.translert.bus.EnterNumberActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
-   			android:configChanges="orientation|keyboardHidden"/>
+   			android:configChanges="orientation|keyboardHidden"
+   			android:windowSoftInputMode="stateVisible"/>
         <activity
-            android:name="com.translert.bus.BusEnterDestinationActivity"
+            android:name="com.translert.bus.EnterBusStopNameActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
-   			android:configChanges="orientation|keyboardHidden"/>
+   			android:configChanges="orientation|keyboardHidden"
+   			android:windowSoftInputMode="stateVisible"/>
         <activity
-            android:name="com.translert.bus.BusProcessingActivity"
-            android:label="@string/app_name"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait"
-   			android:configChanges="orientation|keyboardHidden"/>
-        <activity
-            android:name="com.translert.bus.BusProgressActivity"
+            android:name="com.translert.bus.ProgressActivity"
             android:label="@string/app_name"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
    			android:configChanges="orientation|keyboardHidden"/>
-        <activity
-            android:name="com.translert.bus.activity.BusAlertActivity"
-            android:label="@string/app_name"
-            android:theme ="@android:style/Theme.Black.NoTitleBar.Fullscreen"
-            android:screenOrientation="portrait"
-   			android:configChanges="orientation|keyboardHidden"/>
         <service
-            android:name="com.translert.bus.BusDistanceKeeperService"   />
-        
-        
+            android:name="com.translert.bus.DistanceUpdateService"   />
         
     </application>
 

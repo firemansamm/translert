@@ -43,6 +43,8 @@ public class MainActivity extends SherlockActivity {
 				if(position == 0){
 					//new trip
 					Intent in = new Intent(MainActivity.this, StationSelectorActivity.class);
+					in.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+					in.addFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS); //to let system direct to 'Train Main activity'
 					in.putExtra("from", true);
 					startActivity(in);
 				}else{
@@ -54,7 +56,11 @@ public class MainActivity extends SherlockActivity {
 					//now we need to display this state's overview and start
 					PathFinder.answer = e;
 					Intent in = new Intent(MainActivity.this, TripOverviewActivity.class);
+					in.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+					in.addFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS); //to let system direct to 'Train Main activity'
 					startActivity(in);
+					//Intent in = new Intent(MainActivity.this, TransService.class);			
+					//startService(in);
 				}
 			}
 		});

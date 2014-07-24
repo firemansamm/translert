@@ -1,29 +1,37 @@
 package com.translert;
 
+import java.util.ArrayList;
+
 import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.translert.R;
-import com.translert.bus.BusEnterNumberActivity;
+import com.translert.bus.EnterNumberActivity;
 import com.translert.bus.utils.C;
-import com.translert.bus.utils.GPSTracker;
+//import com.translert.bus.utils.GPSTracker;
 import com.translert.train.MainActivity;
+import com.translert.train.WatchActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 public class BusTrainSelectorActivity extends SherlockActivity {
 	
-	boolean listenerFlag;
-	static public GPSTracker gps;
+
+	
+	private static TransDB transDb;
+	
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
 		C.headingFont = Typeface.createFromAsset(getAssets(), "fonts/Rex-Light.otf");
 		C.bodyFont = Typeface.createFromAsset(getAssets(), "fonts/Raleway-Light.ttf");
 		C.headingFont = Typeface.createFromAsset(getAssets(), "fonts/CODE-Light.otf");
@@ -31,12 +39,6 @@ public class BusTrainSelectorActivity extends SherlockActivity {
 		setContentView(R.layout.activity_bus_train);
 		TextView title = (TextView)findViewById(R.id.select_mode);
 		title.setTypeface(C.headingFont);
-		
-		gps = new GPSTracker(this);
-		if (!gps.canGetGPS()) {
-			gps.showSettingsAlert();
-		}
-		 
 	}
 	
 	public void startMRTMode (View v) {
@@ -46,8 +48,7 @@ public class BusTrainSelectorActivity extends SherlockActivity {
 	}
 	
 	public void startBusMode (View v) {
-		
-		Intent startBusIntent = new Intent (this, BusEnterNumberActivity.class);
+		Intent startBusIntent = new Intent (this, EnterNumberActivity.class);
 		startActivity (startBusIntent);
 	}
 	
@@ -61,28 +62,18 @@ public class BusTrainSelectorActivity extends SherlockActivity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		startActivity(new Intent(this, ShowPreferenceActivity.class));
-		
 		return true;
 	}
 	
 	@Override
-	protected void onResume() {
+	public void onResume(){
 		super.onResume();
-		listenerFlag = true;
+		//if true, then switch to specific context
+		if(TransAppDB.checkAndViewAlert(this)){			
+			return;
+		}
+		//others
 	}
 	
-	@Override
-	protected void onNewIntent(Intent intent) {
-		if (intent.hasExtra("restart")) {
-			try {
-				com.translert.bus.BusProgressActivity.ringtone.stop();
-				com.translert.bus.BusProgressActivity.vibrator.cancel();
-			} catch (Exception e) {}
-			try {
-				com.translert.train.WatchActivity.ringtone.stop();
-				com.translert.train.WatchActivity.vibrator.cancel();
-			} catch (Exception e) {}
-		}
-	}
-
+	
 }
